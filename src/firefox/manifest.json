@@ -12,6 +12,16 @@
 		"matches": ["*://mycourses.aalto.fi/"],
 		"js": ["scripts/loginpage.js"],
 		"run_at": "document_start"
+		},
+		{
+		"matches": ["*://mycourses.aalto.fi/my/"],
+		"js": ["scripts/dashboard.js"],
+		"run_at": "document_start"
+		},
+		{
+		"matches": ["*://mycourses.aalto.fi/my/"],
+		"js": ["scripts/dashboard.js"],
+		"run_at": "document_end"
 		}
 	],
 

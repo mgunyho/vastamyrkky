@@ -3,13 +3,25 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+<style>
+form {
+	font-size: 15px;
+}
+input {
+	vertical-align: middle;
+}
+label {
+	display:inline-block;
+	margin-bottom: 1em;
+}
+</style>
 	</head>
 
 	<body>
 		<form>
-			<label>Disable drop shadow on login page</label>
-			<input type="checkbox" id="disable_login_dropshadow" />
-			<button type="submit">Save</button>
+			<label><input type="checkbox" id="hide_dashboard_header" />Hide header on dashboard page</label><br />
+			<label><input type="checkbox" id="disable_login_dropshadow" />Disable drop shadow on login page</label><br />
+			<button style="display:block; margin-top:15px;" type="submit">Save</button>
 		</form>
 		<script src="settings.js"></script>
 	</body>
