@@ -9,8 +9,8 @@
 	},
 	"content_scripts": [
 		{
-		"matches": ["*://mycourses.aalto.fi/*"],
-		"js": ["vastamyrkky.js"],
+		"matches": ["*://mycourses.aalto.fi/"],
+		"js": ["scripts/loginpage.js"],
 		"run_at": "document_start"
 		}
 	],

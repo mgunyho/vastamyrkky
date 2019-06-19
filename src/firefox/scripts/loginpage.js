@@ -1,4 +1,6 @@
-browser.storage.sync.get("disable_login_dropshadow").then((res) => {
+browser.storage.sync.get([
+	"disable_login_dropshadow"
+]).then((res) => {
 	if(res.disable_login_dropshadow) {
 		var css = ".greenloginbtn:hover { -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }";
 		var style = document.createElement("style");
