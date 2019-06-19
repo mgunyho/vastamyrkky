@@ -1,0 +1,28 @@
+{
+	"manifest_version": 2,
+	"name": "Vastamyrkky",
+	"version": "0.1",
+	"options_ui": {
+		"page": "settings.html",
+		"browser_style": true,
+		"chrome_style": true
+	},
+	"content_scripts": [
+		{
+		"matches": ["*://mycourses.aalto.fi/*"],
+		"js": ["vastamyrkky.js"],
+		"run_at": "document_start"
+		}
+	],
+
+	"permissions": [
+		"*://mycourses.aalto.fi/*",
+		"storage"
+	],
+
+	"applications": {
+		"gecko": {
+			"id": "vastamyrkky@example.com"
+		}
+	}
+}
