@@ -22,6 +22,11 @@
 		"matches": ["*://mycourses.aalto.fi/my/"],
 		"js": ["scripts/dashboard.js"],
 		"run_at": "document_end"
+		},
+		{
+		"matches": ["*://mycourses.aalto.fi/course/*"],
+		"js": ["scripts/coursepage.js"],
+		"run_at": "document_end"
 		}
 	],
 
