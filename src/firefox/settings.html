@@ -14,12 +14,35 @@ label {
 	display:inline-block;
 	margin-bottom: 1em;
 }
+/* pure-css tooltip, from https://stackoverflow.com/a/25813336 */
+[tooltip]:before {
+	position: absolute;
+	content: attr(tooltip);
+	opacity: 0;
+
+	max-width: 20em;
+	border-style: solid;
+	background-color: black;
+	color: white;
+	padding: 0.5em 0.75em;
+	pointer-events: none;
+}
+[tooltip]:hover:before {
+	opacity: 1;
+}
+[tooltip] {
+	text-decoration: underline;
+}
 </style>
 	</head>
 
 	<body>
 		<form>
-			<label><input type="checkbox" id="hide_dashboard_header" />Hide header on dashboard page</label><br />
+			<label>
+				<input type="checkbox" id="hide_dashboard_header" />
+				Hide header on dashboard page
+				<span tooltip="It's the yellow box containing &quot;Services&quot;, &quot;Academic year progress&quot; and &quot;My latest grades in Oodi&quot;. You can bring out the header by clicking a button.">?</span>
+			</label><br />
 			<label><input type="checkbox" id="disable_login_dropshadow" />Disable drop shadow on login page</label><br />
 			<button style="display:block; margin-top:15px;" type="submit">Save</button>
 		</form>
