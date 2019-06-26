@@ -5,7 +5,7 @@ browser.storage.sync.get([
 		var css = "";
 		css += "#page-header .page-header-headings { padding: 0.4rem 1.25rem; position: static;}";
 		css += "#page-header .page-header-headings h1 { font-size: 1.75rem; padding: 0; margin: 0; }";
-		css += "#page-header #courseactivitymenu { position: static; text-align: right; margin-top: 5px; margin-bottom: 5px; }";
+		css += "#page-header #courseactivitymenu { position: static; float: right; margin-top: 5px; margin-bottom: 5px; }";
 		css += "#page-header .card-block { min-height: auto; margin-bottom: 0; }";
 		css += "#page-header .card-block .context-header-settings-menu { margin: 0; }";
 		css += ".page-context-header { overflow: visible; }"
