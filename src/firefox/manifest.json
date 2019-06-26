@@ -9,7 +9,7 @@
 	},
 	"content_scripts": [
 		{
-		"matches": ["*://mycourses.aalto.fi/"],
+		"matches": ["*://mycourses.aalto.fi/", "*://mycourses.aalto.fi/login/index.php"],
 		"js": ["scripts/loginpage.js"],
 		"run_at": "document_start"
 		},
