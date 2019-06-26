@@ -9,18 +9,22 @@
 	},
 	"content_scripts": [
 		{
-		"matches": ["*://mycourses.aalto.fi/", "*://mycourses.aalto.fi/login/index.php"],
-		"js": ["scripts/loginpage.js"],
+		"matches": [
+			"*://mycourses.aalto.fi/",
+			"*://mycourses.aalto.fi/login/index.php",
+			"https://mycourses.aalto.fi/?redirect=0"
+		],
+		"js": ["scripts/utility.js", "scripts/loginpage.js"],
 		"run_at": "document_start"
 		},
 		{
 		"matches": ["*://mycourses.aalto.fi/my/"],
-		"js": ["scripts/dashboard.js"],
+		"js": ["scripts/utility.js", "scripts/dashboard.js"],
 		"run_at": "document_start"
 		},
 		{
 		"matches": ["*://mycourses.aalto.fi/course/*"],
-		"js": ["scripts/coursepage.js"],
+		"js": ["scripts/utility.js", "scripts/coursepage.js"],
 		"run_at": "document_start"
 		}
 	],

@@ -11,13 +11,7 @@ browser.storage.sync.get([
 		css += ".page-context-header { overflow: visible; }"
 		css += ".pull-xs-left { height: 100%; }"
 
-		var style = document.createElement("style");
-		if(style.styleSheet) {
-			style.styleSheet.cssText = css;
-		} else {
-			style.appendChild(document.createTextNode(css));
-		}
-		document.getElementsByTagName('head')[0].appendChild(style);
+		injectCSS(css);
 	}
 	console.log(res);
 });

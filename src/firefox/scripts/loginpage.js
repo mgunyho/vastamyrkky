@@ -16,12 +16,6 @@ browser.storage.sync.get([
 
 	if(res.disable_login_dropshadow) {
 		var css = ".greenloginbtn:hover { -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }";
-		var style = document.createElement("style");
-		if(style.styleSheet) {
-			style.styleSheet.cssText = css;
-		} else {
-			style.appendChild(document.createTextNode(css));
-		}
-		document.getElementsByTagName('head')[0].appendChild(style);
+		injectCSS(css);
 	}
 });

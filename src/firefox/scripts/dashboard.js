@@ -23,13 +23,7 @@ browser.storage.sync.get([
 
 	if(res.hide_dashboard_header) {
 		var css = "#dashboard_headerinfo { display: none; } #page-header .card-block { min-height: 0px; }";
-		var style = document.createElement("style");
-		if(style.styleSheet) {
-			style.styleSheet.cssText = css;
-		} else {
-			style.appendChild(document.createTextNode(css));
-		}
-		document.getElementsByTagName("head")[0].appendChild(style);
+		injectCSS(css);
 
 		document.addEventListener("DOMContentLoaded", function() {
 			// append 'show header' button to navbar
