@@ -2,9 +2,22 @@ browser.storage.sync.get([
 	"course_page_compact_header"
 ]).then((res) => {
 	if(res.course_page_compact_header) {
-		// the default is 220px
-		//TODO: make more compact
-		document.querySelector("#page-header .card-block").style.minHeight = "130px";
+		var css = "";
+		css += "#page-header .page-header-headings { padding: 0.4rem 1.25rem; position: static;}";
+		css += "#page-header .page-header-headings h1 { font-size: 1.75rem; padding: 0; margin: 0; }";
+		css += "#page-header #courseactivitymenu { position: static; text-align: right; margin-top: 5px; margin-bottom: 5px; }";
+		css += "#page-header .card-block { min-height: auto; margin-bottom: 0; }";
+		css += "#page-header .card-block .context-header-settings-menu { margin: 0; }";
+		css += ".page-context-header { overflow: visible; }"
+		css += ".pull-xs-left { height: 100%; }"
+
+		var style = document.createElement("style");
+		if(style.styleSheet) {
+			style.styleSheet.cssText = css;
+		} else {
+			style.appendChild(document.createTextNode(css));
+		}
+		document.getElementsByTagName('head')[0].appendChild(style);
 	}
 	console.log(res);
 });

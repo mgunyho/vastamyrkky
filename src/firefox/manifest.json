@@ -21,7 +21,7 @@
 		{
 		"matches": ["*://mycourses.aalto.fi/course/*"],
 		"js": ["scripts/coursepage.js"],
-		"run_at": "document_end"
+		"run_at": "document_start"
 		}
 	],
 
