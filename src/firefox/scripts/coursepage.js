@@ -1,5 +1,6 @@
 browser.storage.sync.get([
-	"course_page_compact_header"
+	"course_page_compact_header",
+	"activities_to_sidebar",
 ]).then((res) => {
 	if(res.course_page_compact_header) {
 		var css = "";
@@ -13,5 +14,39 @@ browser.storage.sync.get([
 
 		injectCSS(css);
 	}
-	console.log(res);
+
+	if(res.activities_to_sidebar) {
+		document.addEventListener("DOMContentLoaded", function() {
+			var menu = document.getElementById("courseactivitymenu");
+			var links = Array.from(menu.children);
+			var sidebar_navs_parent = document.getElementById("nav-drawer");
+			var sidebar_groups = sidebar_navs_parent.children;
+
+			var nav = document.createElement("nav");
+			nav.classList.add("list-group", "m-t-1");
+			links.forEach((link) => {
+				var a = document.createElement("a");
+				a.href = link.href;
+				a.classList.add("list-group-item");
+
+				a.innerHTML = `
+				<div class="m-l-0">
+                    <div class="media">
+                        <span class="media-left">
+                            <img class="icon " alt="" aria-hidden="true" src="https://mycourses.aalto.fi/theme/image.php/aalto_mycourses/core/1561468713/i/section">
+                        </span>
+                        <span class="media-body ">${link.textContent}</span>
+                    </div>
+                </div>
+				`;
+
+				nav.appendChild(a);
+			});
+
+			sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
+
+		});
+
+		injectCSS("#courseactivitymenu { display: none; }");
+	}
 });

@@ -23,7 +23,11 @@
 		"run_at": "document_start"
 		},
 		{
-		"matches": ["*://mycourses.aalto.fi/course/*"],
+		"matches": [
+			"*://mycourses.aalto.fi/course/*",
+			"*://mycourses.aalto.fi/mod/*",
+			"*://mycourses.aalto.fi/grade/*"
+		],
 		"js": ["scripts/utility.js", "scripts/coursepage.js"],
 		"run_at": "document_start"
 		}
