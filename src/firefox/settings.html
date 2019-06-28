@@ -34,6 +34,7 @@ label {
 	text-decoration: underline;
 }
 </style>
+<script src="settings.js"></script>
 	</head>
 
 	<body>
@@ -55,9 +56,8 @@ label {
 				Move course activities to sidebar <span tooltip="Activities are the little blobs in the upper right corner of the course page, below the title, usually &quot;Assignments&quot;, &quot;Forums&quot; and &quot;Resources&quot;.">?</span>
 			</label><br />
 			<label>
-				<!-- TODO: add slider for duration -->
-			<input type="checkbox" id="disable_sidebar_animation" />
-			Disable sidebar animation
+			Adjust sidebar animation duration: <span id="sidebar_duration_display" style="display: inline-block; width: 3em;"></span>s
+			<input type="range" id="sidebar_animation_duration" min="0" max="0.5" step="0.05" value="0.5"/>
 			</label><br />
 
 			<label>
@@ -73,6 +73,5 @@ label {
 			</label><br />
 			<button style="display:block; margin-top:15px;" type="submit">Save</button>
 		</form>
-		<script src="settings.js"></script>
 	</body>
 </html>

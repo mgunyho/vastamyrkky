@@ -1,7 +1,7 @@
 browser.storage.sync.get([
 	"course_page_compact_header",
 	"activities_to_sidebar",
-	"disable_sidebar_animation" // TODO: move to 'common.js'
+	"sidebar_animation_duration" // TODO: move to 'common.js'
 ]).then((res) => {
 	if(res.course_page_compact_header) {
 		var css = "";
@@ -51,23 +51,16 @@ browser.storage.sync.get([
 		injectCSS("#courseactivitymenu { display: none; }");
 	}
 
-	if(res.disable_sidebar_animation) {
-		//TODO: adjustable duration, this doesn't work
-		//var len = 0.1;
-		//var all_transitions = `
-		//		-webkit-transition-duration: ${len};
-		//		-moz-transition-duration: ${len};
-		//		-o-transition-duration: ${len};
-		//		transition-duration: ${len};
-		//	`;
+	if(res.sidebar_animation_duration != undefined && res.sidebar_animation_duration < 0.5) {
+		var len = res.sidebar_animation_duration;
+		var transition = `margin-left ${len}s ease,margin-right ${len}s ease,left ${len}s ease,right ${len}s ease`;
 		var all_transitions = `
-				-webkit-transition: none;
-				-moz-transition: none;
-				-o-transition: none;
-				transition: none;
+				-webkit-transition: ${transition};
+				-moz-transition: ${transition};
+				-o-transition: ${transition};
+				transition: ${transition};
 			`;
 		var css = "";
-		//css += "#nav-drawer: { transition: none; }";
 		css += `[data-region="drawer"] { ${all_transitions} }`;
 		css += `body.drawer-ease { ${all_transitions} }`;
 		//console.log(all_transitions);

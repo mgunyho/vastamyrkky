@@ -3,19 +3,22 @@ function saveOptions(e) {
 		hide_dashboard_header: document.querySelector("#hide_dashboard_header").checked,
 		course_page_compact_header: document.querySelector("#course_page_compact_header").checked,
 		activities_to_sidebar: document.querySelector("#activities_to_sidebar").checked,
-		disable_sidebar_animation: document.querySelector("#disable_sidebar_animation").checked,
+		sidebar_animation_duration: document.querySelector("#sidebar_animation_duration").valueAsNumber,
 		redirect_loginpage: document.querySelector("#redirect_loginpage").value,
 		disable_login_dropshadow: document.querySelector("#disable_login_dropshadow").checked
 	});
 	e.preventDefault();
 }
 
+function checkDefault(x, default_value) {
+	return typeof(x) === "undefined" ? default_value : x;
+}
 function restoreOptions() {
 	browser.storage.sync.get([
 		"hide_dashboard_header",
 		"course_page_compact_header",
 		"activities_to_sidebar",
-		"disable_sidebar_animation",
+		"sidebar_animation_duration",
 		"redirect_loginpage",
 		"disable_login_dropshadow"
 	]).then((res) => {
@@ -23,11 +26,22 @@ function restoreOptions() {
 		document.querySelector("#hide_dashboard_header").checked = res.hide_dashboard_header;
 		document.querySelector("#course_page_compact_header").checked = res.course_page_compact_header;
 		document.querySelector("#activities_to_sidebar").checked = res.activities_to_sidebar;
-		document.querySelector("#disable_sidebar_animation").checked = res.disable_sidebar_animation;
+
+		var sidebar_duration_slider = document.querySelector("#sidebar_animation_duration");
+		sidebar_duration_slider.valueAsNumber = checkDefault(res.sidebar_animation_duration, 0.5);
+		sidebar_duration_slider.dispatchEvent(new Event("input", {"bubbles": true, "cancelable": true})); // notify the slider of the value, to update the display
+
 		document.querySelector("#redirect_loginpage").value = res.redirect_loginpage || "";
 		document.querySelector("#disable_login_dropshadow").checked = res.disable_login_dropshadow;
 	});
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+	// some initialization stuff
+	document.querySelector("#sidebar_animation_duration").addEventListener("input", (e) => {
+				document.querySelector("#sidebar_duration_display").innerText = e.srcElement.valueAsNumber.toFixed(2);
+			}
+	);
+	document.querySelector("form").addEventListener("submit", saveOptions);
+});
 document.addEventListener("DOMContentLoaded", restoreOptions);
-document.querySelector("form").addEventListener("submit", saveOptions);
