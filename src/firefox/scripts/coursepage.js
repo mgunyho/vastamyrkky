@@ -1,5 +1,6 @@
 browser.storage.sync.get([
 	"course_page_compact_header",
+	"show_recent_items_in_sidebar",
 	"activities_to_sidebar",
 	"sidebar_animation_duration" // TODO: move to 'common.js'
 ]).then((res) => {
@@ -14,6 +15,123 @@ browser.storage.sync.get([
 		css += ".pull-xs-left { height: 100%; }"
 
 		injectCSS(css);
+	}
+
+	if(res.show_recent_items_in_sidebar) {
+		//TODO: implement this for front page sidebar also
+		document.addEventListener("DOMContentLoaded", function() {
+
+			//TODO: this doesn't always work... add separate function in utils for finding course ID from page (based on links in sidebar etc)
+			var courseID = window.location.search.substr(1).split("&")
+				.find((p) => p.startsWith("id")).split("=")[1];
+
+			hookResourceLinks((e) => {
+				//console.log(e);
+				var link = e.target.closest("a");
+				var entry = {
+					resourceName: link.querySelector("span").firstChild
+						.textContent.trim(),
+					courseTitle: document.querySelector("#page-header")
+						.querySelector("h1").textContent,
+					courseID: courseID,
+					timestamp: (new Date()).getTime(),
+					URL: link.href,
+				};
+
+				//console.log(entry);
+
+				browser.storage.sync.get("recent_items")
+					.then((res) => {
+						var items = res.recent_items || [];
+
+						// partition history into items that are for this course
+						// and those that are not
+						var courseItems = [];
+						var notCourseItems = [];
+						items.forEach((x) => {
+							if(x.courseID == courseID) {
+								courseItems.push(x);
+							} else {
+								notCourseItems.push(x);
+							}
+						});
+						//console.log("notCourseItems", notCourseItems);
+						//console.log("courseItems before", courseItems);
+
+						// remove old entries if there are too many of them
+						//TODO: try sort by timestamp and splice instead of while?
+						while(courseItems.length > 5) {
+							var oldestItem = courseItems.reduce((res, cur) => {
+								return res.timestamp < cur.timestamp ? res : cur;
+							});
+							//console.log("oldestItem", oldestItem.timestamp);
+							courseItems = courseItems.filter(item =>
+									item.timestamp != oldestItem.timestamp);
+						}
+						//console.log("courseItems after", courseItems);
+
+						// if the current entry exists in the history, remove it
+						courseItems = courseItems.filter(x => x.URL != entry.URL);
+
+						courseItems.push(entry);
+						//console.log("courseItems after 2", courseItems);
+
+						// join items back
+						var newItems = notCourseItems;
+						courseItems.forEach((x) => newItems.push(x));
+
+						//console.log("newItems", newItems);
+						browser.storage.sync.set({recent_items: newItems});
+					});
+			});
+
+			var sidebar_navs_parent = document.getElementById("nav-drawer");
+			var sidebar_groups = sidebar_navs_parent.children;
+
+			var nav = document.createElement("nav");
+
+			var title = document.createElement("p");
+			title.classList.add("list-group-item");
+			title.innerText = "Recent items";
+
+			//TODO: don't append if no recent items
+			nav.appendChild(title);
+
+			browser.storage.sync.get("recent_items")
+				.then((res) => {
+					var courseItems = res.recent_items.filter(item =>
+								item.courseID == courseID
+							);
+
+					console.log("courseID", courseID, "courseItems", courseItems);
+					//TODO: test sorting...
+					courseItems = courseItems.sort((a, b) => {return a.timestamp < b.timestamp; });
+					courseItems.forEach((item) => {
+						var a = document.createElement("a");
+						a.href = item.URL;
+						a.classList.add("list-group-item");
+
+						//TODO: add hook to sidebar items also
+						a.innerHTML = `
+						<div class="m-l-0">
+						    <div class="media">
+						        <span class="media-left">
+						            <img class="icon " alt="" aria-hidden="true" src="https://mycourses.aalto.fi/theme/image.php/aalto_mycourses/core/1561468713/i/section">
+						        </span>
+						        <span class="media-body ">${item.resourceName}</span>
+						    </div>
+						</div>
+						`;
+
+						nav.appendChild(a);
+					});
+
+				});
+
+
+			nav.classList.add("list-group", "m-t-1");
+			sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
+		});
 	}
 
 	if(res.activities_to_sidebar) {
