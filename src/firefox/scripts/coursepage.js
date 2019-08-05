@@ -21,24 +21,17 @@ browser.storage.sync.get([
 		//TODO: implement this for front page sidebar also
 		document.addEventListener("DOMContentLoaded", function() {
 
-			//TODO: this doesn't always work... add separate function in utils for finding course ID from page (based on links in sidebar etc)
-			var courseID = window.location.search.substr(1).split("&")
-				.find((p) => p.startsWith("id")).split("=")[1];
+			function addEntryToRecentItems(entry) {
+				/* Add an entry object to the list of recently accessed items.
+				 * `entry` should have the following attributes:
+				 * `resourceName`: the name of the file etc. in question
+				 * `courseTitle`: the title of the associated course
+				 * `courseID`: the MyCourses ID of the course (i.e. mycourses.aalto.fi/course/view.php?id=XXXXX)
+				 * `timestamp`: unix timestamp of when the entry was created
+				 * `URL`: URL of the file the link is pointing to
+				 */
 
-			hookResourceLinks((e) => {
-				//console.log(e);
-				var link = e.target.closest("a");
-				var entry = {
-					resourceName: link.querySelector("span").firstChild
-						.textContent.trim(),
-					courseTitle: document.querySelector("#page-header")
-						.querySelector("h1").textContent,
-					courseID: courseID,
-					timestamp: (new Date()).getTime(),
-					URL: link.href,
-				};
-
-				//console.log(entry);
+				console.log(entry);
 
 				browser.storage.sync.get("recent_items")
 					.then((res) => {
@@ -66,7 +59,7 @@ browser.storage.sync.get([
 							});
 							//console.log("oldestItem", oldestItem.timestamp);
 							courseItems = courseItems.filter(item =>
-									item.timestamp != oldestItem.timestamp);
+								item.timestamp != oldestItem.timestamp);
 						}
 						//console.log("courseItems after", courseItems);
 
@@ -83,7 +76,28 @@ browser.storage.sync.get([
 						//console.log("newItems", newItems);
 						browser.storage.sync.set({recent_items: newItems});
 					});
+			};
+
+			//TODO: this doesn't always work... add separate function in utils for finding course ID from page (based on links in sidebar etc)
+			var courseID = window.location.search.substr(1).split("&")
+				.find((p) => p.startsWith("id")).split("=")[1];
+
+			hookResourceLinks((e) => {
+				//console.log(e);
+				var link = e.target.closest("a");
+				var entry = {
+					resourceName: link.querySelector("span").firstChild
+						.textContent.trim(),
+					courseTitle: document.querySelector("#page-header")
+						.querySelector("h1").textContent,
+					courseID: courseID,
+					timestamp: (new Date()).getTime(),
+					URL: link.href,
+				};
+				//console.log(entry);
+				addEntryToRecentItems(entry);
 			});
+
 
 			var sidebar_navs_parent = document.getElementById("nav-drawer");
 			var sidebar_groups = sidebar_navs_parent.children;
@@ -100,18 +114,20 @@ browser.storage.sync.get([
 			browser.storage.sync.get("recent_items")
 				.then((res) => {
 					var courseItems = res.recent_items.filter(item =>
-								item.courseID == courseID
-							);
+								item.courseID == courseID);
 
 					console.log("courseID", courseID, "courseItems", courseItems);
-					//TODO: test sorting...
 					courseItems = courseItems.sort((a, b) => {return a.timestamp < b.timestamp; });
 					courseItems.forEach((item) => {
 						var a = document.createElement("a");
 						a.href = item.URL;
 						a.classList.add("list-group-item");
+						a.addEventListener("click", (e) => {
+							var entry = Object.assign({}, item);
+							entry.timestamp = (new Date()).getTime();
+							addEntryToRecentItems(entry);
+						}, false);
 
-						//TODO: add hook to sidebar items also
 						a.innerHTML = `
 						<div class="m-l-0">
 						    <div class="media">
