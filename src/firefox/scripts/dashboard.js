@@ -18,7 +18,8 @@ function show_header() {
 }
 
 browser.storage.sync.get([
-	"hide_dashboard_header"
+	"hide_dashboard_header",
+	"show_recent_items_in_sidebar",
 ]).then((res) => {
 
 	if(res.hide_dashboard_header) {
@@ -41,6 +42,17 @@ browser.storage.sync.get([
 			document.getElementById("page-navbar").appendChild(show_header_btn_div);
 		});
 
+	}
+
+	if(res.show_recent_items_in_sidebar) {
+		console.log("foo");
+		if(document.readyState !== "loading") {
+			addRecentItemsToSidebar(dashboard = true);
+		} else {
+			document.addEventListener("DOMContentLoaded", function() {
+				addRecentItemsToSidebar(dashboard = true);
+			});
+		}
 	}
 
 });

@@ -3,6 +3,7 @@
  * of recently visited items.
  */
 
+const RECENT_ITEMS_MAX_LEN = 5; //TODO: make configurable
 
 function addEntryToRecentItems(entry) {
 	/* Add an entry object to the list of recently accessed items.
@@ -36,7 +37,7 @@ function addEntryToRecentItems(entry) {
 
 			// remove old entries if there are too many of them
 			//TODO: try sort by timestamp and splice instead of while?
-			while(courseItems.length > 5) {
+			while(courseItems.length > RECENT_ITEMS_MAX_LEN) {
 				var oldestItem = courseItems.reduce((res, cur) => {
 					return res.timestamp < cur.timestamp ? res : cur;
 				});
@@ -61,7 +62,8 @@ function addEntryToRecentItems(entry) {
 		});
 }
 
-function addRecentItemsToSidebar() {
+function addRecentItemsToSidebar(dashboard = false) {
+	// if dashboard == true, assume we're on the dashboard and add course items from all courses
 
 	var sidebar_navs_parent = document.getElementById("nav-drawer");
 	var sidebar_groups = sidebar_navs_parent.children;
@@ -79,11 +81,17 @@ function addRecentItemsToSidebar() {
 
 	browser.storage.sync.get("recent_items")
 		.then((res) => {
-			var courseItems = res.recent_items.filter(item =>
-				item.courseID == courseID);
+			var courseItems;
+			if(!dashboard) {
+				courseItems = res.recent_items.filter(item =>
+					item.courseID == courseID);
+			} else {
+				courseItems = res.recent_items;
+			}
 
 			//console.log("courseID", courseID, "courseItems", courseItems);
 			courseItems = courseItems.sort((a, b) => {return a.timestamp < b.timestamp; });
+			courseItems.splice(RECENT_ITEMS_MAX_LEN); // TODO: make configurable
 			courseItems.forEach((item) => {
 				var a = document.createElement("a");
 				a.href = item.URL;
@@ -96,13 +104,19 @@ function addRecentItemsToSidebar() {
 				}, false);
 				a.dataset.vastamyrkkyId = generateShortUID(); // tag links created by us
 
+				var linkText = item.resourceName;
+				if(dashboard) {
+					//TODO: good? okay to use split? add option for no prefix?
+					linkText = item.courseTitle.split(" - ")[0] + " " + linkText;
+				}
+
 				a.innerHTML = `
 					<div class="m-l-0">
 					<div class="media">
 					<span class="media-left">
 					<img class="icon " alt="" aria-hidden="true" src="https://mycourses.aalto.fi/theme/image.php/aalto_mycourses/core/1561468713/i/section">
 					</span>
-					<span class="media-body ">${item.resourceName}</span>
+					<span class="media-body ">${linkText}</span>
 					</div>
 					</div>
 					`;

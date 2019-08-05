@@ -19,7 +19,7 @@
 		},
 		{
 		"matches": ["*://mycourses.aalto.fi/my/"],
-		"js": ["scripts/utility.js", "scripts/dashboard.js"],
+		"js": ["scripts/utility.js", "scripts/recent_items.js", "scripts/dashboard.js"],
 		"run_at": "document_start"
 		},
 		{
