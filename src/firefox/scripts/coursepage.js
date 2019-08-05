@@ -78,9 +78,7 @@ browser.storage.sync.get([
 					});
 			};
 
-			//TODO: this doesn't always work... add separate function in utils for finding course ID from page (based on links in sidebar etc)
-			var courseID = window.location.search.substr(1).split("&")
-				.find((p) => p.startsWith("id")).split("=")[1];
+			var courseID = findCourseID();
 
 			hookResourceLinks((e) => {
 				//console.log(e);
