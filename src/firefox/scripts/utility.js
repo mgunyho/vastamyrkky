@@ -37,13 +37,14 @@ function hookResourceLinks(callback) {
 	// to the recent items list. Actually adding them to the recent items
 	// should be handled by 'callback'
 
-	//TODO: doesn't work for 'pluginfile.php'
-
 	var links = Array.from(document.querySelectorAll("a")).filter((a) => {
-		return Boolean(a.href.match("https?://mycourses.aalto.fi/mod/resource"));
+		var ret = Boolean(a.href.match("https?://mycourses.aalto.fi/mod/resource"));
+		ret |= Boolean(a.href.match(/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_assign\/introattachment/));
+
+		return ret;
 	});
 
-	//console.log(links);
+	console.log(links);
 
 	links.forEach((a) => {
 		//console.log(a);

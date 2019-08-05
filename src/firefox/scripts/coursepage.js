@@ -19,8 +19,11 @@ browser.storage.sync.get([
 
 	if(res.show_recent_items_in_sidebar) {
 		//TODO: implement this for front page sidebar also
-		document.addEventListener("DOMContentLoaded", function() {
+		//window.addEventListener("load", //TODO: need to use this for mod/assign pages (links get moved around by javascript or something...)
+		//document.addEventListener("DOMContentLoaded", function()
 
+		function initRecentItems()
+		{
 			function addEntryToRecentItems(entry) {
 				/* Add an entry object to the list of recently accessed items.
 				 * `entry` should have the following attributes:
@@ -83,9 +86,16 @@ browser.storage.sync.get([
 			hookResourceLinks((e) => {
 				//console.log(e);
 				var link = e.target.closest("a");
+				var span = link.querySelector("span");
+				var resourceName;
+				if(span) {
+					resourceName = span.firstChild.textContent.trim();
+				} else {
+					resourceName = link.textContent.trim();
+				}
+
 				var entry = {
-					resourceName: link.querySelector("span").firstChild
-						.textContent.trim(),
+					resourceName: resourceName,
 					courseTitle: document.querySelector("#page-header")
 						.querySelector("h1").textContent,
 					courseID: courseID,
@@ -145,10 +155,21 @@ browser.storage.sync.get([
 
 			nav.classList.add("list-group", "m-t-1");
 			sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
-		});
+		};
+		//);
+
+		//TODO: re-run hookResourceLinks on window.load (not DOMContentLoaded) ...
+		if(document.readyState !== 'loading') {
+			console.log("not loading");
+			initRecentItems();
+		} else {
+			console.log("loading");
+			document.addEventListener("DOMContentLoaded", initRecentItems);
+		}
 	}
 
 	if(res.activities_to_sidebar) {
+		//TODO: DOMContentLoaded doesn't always fire, use init function (like above)
 		document.addEventListener("DOMContentLoaded", function() {
 			var menu = document.getElementById("courseactivitymenu");
 			var links = Array.from(menu.children);
