@@ -183,8 +183,7 @@ browser.storage.sync.get([
 	}
 
 	if(res.activities_to_sidebar) {
-		//TODO: DOMContentLoaded doesn't always fire, use init function (like above)
-		document.addEventListener("DOMContentLoaded", function() {
+		function initSidebarActivities() {
 			var menu = document.getElementById("courseactivitymenu");
 			var links = Array.from(menu.children);
 			var sidebar_navs_parent = document.getElementById("nav-drawer");
@@ -213,7 +212,13 @@ browser.storage.sync.get([
 
 			sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
 
-		});
+		}
+
+		if(document.readyState !== 'loading') {
+			initSidebarActivities();
+		} else {
+			document.addEventListener("DOMContentLoaded", initSidebarActivities);
+		}
 
 		injectCSS("#courseactivitymenu { display: none; }");
 	}
