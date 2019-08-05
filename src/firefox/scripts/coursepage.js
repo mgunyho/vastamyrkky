@@ -77,32 +77,6 @@ browser.storage.sync.get([
 				});
 		}
 
-		function addResourceCallbacks() {
-			var courseID = findCourseID();
-			hookResourceLinks((e) => {
-				//console.log(e);
-				var link = e.target.closest("a");
-				var span = link.querySelector("span");
-				var resourceName;
-				if(span) {
-					resourceName = span.firstChild.textContent.trim();
-				} else {
-					resourceName = link.textContent.trim();
-				}
-
-				var entry = {
-					resourceName: resourceName,
-					courseTitle: document.querySelector("#page-header")
-						.querySelector("h1").textContent,
-					courseID: courseID,
-					timestamp: (new Date()).getTime(),
-					URL: link.href,
-				};
-				//console.log(entry);
-				addEntryToRecentItems(entry);
-			});
-		}
-
 		function addRecentItemsToSidebar()
 		{
 
@@ -159,6 +133,32 @@ browser.storage.sync.get([
 			nav.classList.add("list-group", "m-t-1");
 			sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
 		} // addRecentItemsToSidebar
+
+		function addResourceCallbacks() {
+			var courseID = findCourseID();
+			hookResourceLinks((e) => {
+				//console.log(e);
+				var link = e.target.closest("a");
+				var span = link.querySelector("span");
+				var resourceName;
+				if(span) {
+					resourceName = span.firstChild.textContent.trim();
+				} else {
+					resourceName = link.textContent.trim();
+				}
+
+				var entry = {
+					resourceName: resourceName,
+					courseTitle: document.querySelector("#page-header")
+						.querySelector("h1").textContent,
+					courseID: courseID,
+					timestamp: (new Date()).getTime(),
+					URL: link.href,
+				};
+				//console.log(entry);
+				addEntryToRecentItems(entry);
+			});
+		}
 
 		var isModPage = window.location.pathname.match("/mod/assign/view.php");
 
