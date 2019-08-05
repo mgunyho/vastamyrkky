@@ -99,7 +99,7 @@ browser.storage.sync.get([
 					var courseItems = res.recent_items.filter(item =>
 								item.courseID == courseID);
 
-					console.log("courseID", courseID, "courseItems", courseItems);
+					//console.log("courseID", courseID, "courseItems", courseItems);
 					courseItems = courseItems.sort((a, b) => {return a.timestamp < b.timestamp; });
 					courseItems.forEach((item) => {
 						var a = document.createElement("a");
@@ -108,7 +108,7 @@ browser.storage.sync.get([
 						a.addEventListener("click", (e) => {
 							var entry = Object.assign({}, item);
 							entry.timestamp = (new Date()).getTime();
-							console.log(entry);
+							//console.log(entry);
 							addEntryToRecentItems(entry);
 						}, false);
 						a.dataset.vastamyrkkyId = generateShortUID(); // tag links created by us
@@ -175,7 +175,7 @@ browser.storage.sync.get([
 		if(isModPage) {
 			// on 'mod' pages, attach callbacks when the page has been completely loaded
 			window.addEventListener("load", function() {
-				console.log("isModPage load");
+				//console.log("isModPage load");
 				addResourceCallbacks();
 			});
 		}
@@ -191,6 +191,12 @@ browser.storage.sync.get([
 
 			var nav = document.createElement("nav");
 			nav.classList.add("list-group", "m-t-1");
+
+			var title = document.createElement("p");
+			title.classList.add("list-group-item");
+			title.innerText = "Activities";
+			nav.appendChild(title);
+
 			links.forEach((link) => {
 				var a = document.createElement("a");
 				a.href = link.href;
