@@ -7,3 +7,59 @@ function injectCSS(css) {
 	}
 	document.getElementsByTagName('head')[0].appendChild(style);
 }
+
+function generateShortUID() {
+	// collisions should be rare for < 1000 UIDs
+	// from https://stackoverflow.com/a/6248722
+	var a = (Math.random() * 46656) | 0;
+	var b = (Math.random() * 46656) | 0;
+	return ("000" + a.toString(36)).slice(-3) + ("000" + b.toString(36)).slice(-3);
+}
+
+function findCourseID() {
+	/* Scrape the current page for the MyCourses course ID (i.e.
+	 * mycourses.aalto.fi/course/view.php?id=XXXXX).
+	 * The course ID might not be visible directly in the URL, but can be found
+	 * e.g. in the navigation bar ("Dashboard / My own courses / ...).
+	 */
+
+	var url = window.location.toString();
+	var courseID;
+	if(url.match("https?://mycourses.aalto.fi/course/view.php")) {
+		courseID = window.location.search.substr(1).split("&")
+			.find((p) => p.startsWith("id")).split("=")[1];
+	} else {
+		// this is the link to the home page of the course
+		var a = Array.from(document.querySelectorAll("a"))
+			.find(a => a.dataset.key == "coursehome");
+
+		courseID = a.href.match(/id=\d+/)[0].split("=")[1];
+	}
+
+	return courseID;
+}
+
+function hookResourceLinks(callback) {
+	// find all links on the page, and attach the function 'callback' to all
+	// links that are 'resources', i.e. PDF files and such that should be added
+	// to the recent items list. Actually adding them to the recent items
+	// should be handled by 'callback'
+
+	var links = Array.from(document.querySelectorAll("a")).filter((a) => {
+		var ret = Boolean(a.href.match("https?://mycourses.aalto.fi/mod/resource"));
+		ret |= Boolean(a.href.match(/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_assign\/introattachment/));
+
+		return ret;
+	});
+
+	//console.log(links);
+
+	links.forEach((a) => {
+		if(!a.dataset.vastamyrkkyId) { // avoid adding callback twice
+			//console.log(a);
+			//console.log(a.href);
+			//a.href = "#";
+			a.addEventListener("click", callback, false);
+		}
+	});
+}

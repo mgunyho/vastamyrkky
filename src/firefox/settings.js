@@ -2,6 +2,11 @@ function saveOptions(e) {
 	browser.storage.sync.set({
 		hide_dashboard_header: document.querySelector("#hide_dashboard_header").checked,
 		course_page_compact_header: document.querySelector("#course_page_compact_header").checked,
+		show_recent_items_in_sidebar: document.querySelector("#show_recent_items_in_sidebar").checked,
+		//TODO: 'show recent items at the top of the sidebar'
+		//TODO: 'no. of recent items to show in sidebar'
+		//TODO: 'show recent items on front page'
+		//TODO: 'no. of recent items to show on front page (checkbox for "same as sidebar")'
 		activities_to_sidebar: document.querySelector("#activities_to_sidebar").checked,
 		sidebar_animation_duration: document.querySelector("#sidebar_animation_duration").valueAsNumber,
 		redirect_loginpage: document.querySelector("#redirect_loginpage").value,
@@ -17,6 +22,7 @@ function restoreOptions() {
 	browser.storage.sync.get([
 		"hide_dashboard_header",
 		"course_page_compact_header",
+		"show_recent_items_in_sidebar",
 		"activities_to_sidebar",
 		"sidebar_animation_duration",
 		"redirect_loginpage",
@@ -25,6 +31,7 @@ function restoreOptions() {
 		//console.log(res);
 		document.querySelector("#hide_dashboard_header").checked = res.hide_dashboard_header;
 		document.querySelector("#course_page_compact_header").checked = res.course_page_compact_header;
+		document.querySelector("#show_recent_items_in_sidebar").checked = res.show_recent_items_in_sidebar;
 		document.querySelector("#activities_to_sidebar").checked = res.activities_to_sidebar;
 
 		var sidebar_duration_slider = document.querySelector("#sidebar_animation_duration");
