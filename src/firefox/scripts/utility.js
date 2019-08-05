@@ -8,6 +8,14 @@ function injectCSS(css) {
 	document.getElementsByTagName('head')[0].appendChild(style);
 }
 
+function generateShortUID() {
+	// collisions should be rare for < 1000 UIDs
+	// from https://stackoverflow.com/a/6248722
+	var a = (Math.random() * 46656) | 0;
+	var b = (Math.random() * 46656) | 0;
+	return ("000" + a.toString(36)).slice(-3) + ("000" + b.toString(36)).slice(-3);
+}
+
 function findCourseID() {
 	/* Scrape the current page for the MyCourses course ID (i.e.
 	 * mycourses.aalto.fi/course/view.php?id=XXXXX).
