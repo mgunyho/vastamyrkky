@@ -26,7 +26,7 @@ browser.storage.sync.get([
 		var css = "#dashboard_headerinfo { display: none; } #page-header .card-block { min-height: 0px; }";
 		injectCSS(css);
 
-		document.addEventListener("DOMContentLoaded", function() {
+		function initHideDashboardHeader() {
 			// append 'show header' button to navbar
 			var show_header_btn = document.createElement("button");
 			show_header_btn.classList.add("btn", "btn-secondary", "iconawe");
@@ -40,12 +40,17 @@ browser.storage.sync.get([
 
 			show_header_btn_div.appendChild(show_header_btn);
 			document.getElementById("page-navbar").appendChild(show_header_btn_div);
-		});
+		}
+
+		if(document.readyState !== "loading") {
+			initHideDashboardHeader();
+		} else {
+			document.addEventListener("DOMContentLoaded", initHideDashboardHeader);
+		}
 
 	}
 
 	if(res.show_recent_items_in_sidebar) {
-		console.log("foo");
 		if(document.readyState !== "loading") {
 			addRecentItemsToSidebar(dashboard = true);
 		} else {
