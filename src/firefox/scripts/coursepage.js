@@ -18,7 +18,6 @@ browser.storage.sync.get([
 	}
 
 	if(res.show_recent_items_in_sidebar) {
-		//TODO: implement this for front page sidebar also
 
 		var isModPage = window.location.pathname.match("/mod/assign/view.php");
 
@@ -90,19 +89,6 @@ browser.storage.sync.get([
 	}
 
 	if(res.sidebar_animation_duration != undefined && res.sidebar_animation_duration < 0.5) {
-		var len = res.sidebar_animation_duration;
-		var transition = `margin-left ${len}s ease,margin-right ${len}s ease,left ${len}s ease,right ${len}s ease`;
-		var all_transitions = `
-				-webkit-transition: ${transition};
-				-moz-transition: ${transition};
-				-o-transition: ${transition};
-				transition: ${transition};
-			`;
-		var css = "";
-		css += `[data-region="drawer"] { ${all_transitions} }`;
-		css += `body.drawer-ease { ${all_transitions} }`;
-		//console.log(all_transitions);
-		//console.log(css);
-		injectCSS(css);
+		setSidebarAnimationDuration(res.sidebar_animation_duration);
 	}
 });

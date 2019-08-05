@@ -8,6 +8,23 @@ function injectCSS(css) {
 	document.getElementsByTagName('head')[0].appendChild(style);
 }
 
+function setSidebarAnimationDuration(duration) {
+	if(duration == undefined) return;
+	var transition = `margin-left ${duration}s ease,margin-right ${duration}s ease,left ${duration}s ease,right ${duration}s ease`;
+	var all_transitions = `
+		-webkit-transition: ${transition};
+	-moz-transition: ${transition};
+	-o-transition: ${transition};
+	transition: ${transition};
+	`;
+	var css = "";
+	css += `[data-region="drawer"] { ${all_transitions} }`;
+	css += `body.drawer-ease { ${all_transitions} }`;
+	//console.log(all_transitions);
+	//console.log(css);
+	injectCSS(css);
+}
+
 function generateShortUID() {
 	// collisions should be rare for < 1000 UIDs
 	// from https://stackoverflow.com/a/6248722
