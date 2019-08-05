@@ -33,33 +33,11 @@ function findCourseID() {
 		var a = Array.from(document.querySelectorAll("a"))
 			.find(a => a.dataset.key == "coursehome");
 
-		courseID = a.href.match(/id=\d+/)[0].split("=")[1];
+		// a is undefined for (at least) the front page
+		if(a) {
+			courseID = a.href.match(/id=\d+/)[0].split("=")[1];
+		}
 	}
 
 	return courseID;
-}
-
-function hookResourceLinks(callback) {
-	// find all links on the page, and attach the function 'callback' to all
-	// links that are 'resources', i.e. PDF files and such that should be added
-	// to the recent items list. Actually adding them to the recent items
-	// should be handled by 'callback'
-
-	var links = Array.from(document.querySelectorAll("a")).filter((a) => {
-		var ret = Boolean(a.href.match("https?://mycourses.aalto.fi/mod/resource"));
-		ret |= Boolean(a.href.match(/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_assign\/introattachment/));
-
-		return ret;
-	});
-
-	//console.log(links);
-
-	links.forEach((a) => {
-		if(!a.dataset.vastamyrkkyId) { // avoid adding callback twice
-			//console.log(a);
-			//console.log(a.href);
-			//a.href = "#";
-			a.addEventListener("click", callback, false);
-		}
-	});
 }

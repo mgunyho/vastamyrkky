@@ -28,7 +28,7 @@
 			"*://mycourses.aalto.fi/mod/*",
 			"*://mycourses.aalto.fi/grade/*"
 		],
-		"js": ["scripts/utility.js", "scripts/coursepage.js"],
+		"js": ["scripts/utility.js", "scripts/recent_items.js", "scripts/coursepage.js"],
 		"run_at": "document_start"
 		}
 	],
