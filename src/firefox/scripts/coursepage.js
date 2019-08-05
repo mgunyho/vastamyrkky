@@ -20,62 +20,62 @@ browser.storage.sync.get([
 	if(res.show_recent_items_in_sidebar) {
 		//TODO: implement this for front page sidebar also
 
-			function addEntryToRecentItems(entry) {
-				/* Add an entry object to the list of recently accessed items.
-				 * `entry` should have the following attributes:
-				 * `resourceName`: the name of the file etc. in question
-				 * `courseTitle`: the title of the associated course
-				 * `courseID`: the MyCourses ID of the course (i.e. mycourses.aalto.fi/course/view.php?id=XXXXX)
-				 * `timestamp`: unix timestamp of when the entry was created
-				 * `URL`: URL of the file the link is pointing to
-				 */
+		function addEntryToRecentItems(entry) {
+			/* Add an entry object to the list of recently accessed items.
+			 * `entry` should have the following attributes:
+			 * `resourceName`: the name of the file etc. in question
+			 * `courseTitle`: the title of the associated course
+			 * `courseID`: the MyCourses ID of the course (i.e. mycourses.aalto.fi/course/view.php?id=XXXXX)
+			 * `timestamp`: unix timestamp of when the entry was created
+			 * `URL`: URL of the file the link is pointing to
+			 */
 
-				//console.log(entry);
+			//console.log(entry);
 
-				browser.storage.sync.get("recent_items")
-					.then((res) => {
-						var items = res.recent_items || [];
+			browser.storage.sync.get("recent_items")
+				.then((res) => {
+					var items = res.recent_items || [];
 
-						// partition history into items that are for this course
-						// and those that are not
-						var courseItems = [];
-						var notCourseItems = [];
-						items.forEach((x) => {
-							if(x.courseID == entry.courseID) {
-								courseItems.push(x);
-							} else {
-								notCourseItems.push(x);
-							}
-						});
-						//console.log("notCourseItems", notCourseItems);
-						//console.log("courseItems before", courseItems);
-
-						// remove old entries if there are too many of them
-						//TODO: try sort by timestamp and splice instead of while?
-						while(courseItems.length > 5) {
-							var oldestItem = courseItems.reduce((res, cur) => {
-								return res.timestamp < cur.timestamp ? res : cur;
-							});
-							//console.log("oldestItem", oldestItem.timestamp);
-							courseItems = courseItems.filter(item =>
-								item.timestamp != oldestItem.timestamp);
+					// partition history into items that are for this course
+					// and those that are not
+					var courseItems = [];
+					var notCourseItems = [];
+					items.forEach((x) => {
+						if(x.courseID == entry.courseID) {
+							courseItems.push(x);
+						} else {
+							notCourseItems.push(x);
 						}
-						//console.log("courseItems after", courseItems);
-
-						// if the current entry exists in the history, remove it
-						courseItems = courseItems.filter(x => x.URL != entry.URL);
-
-						courseItems.push(entry);
-						//console.log("courseItems after 2", courseItems);
-
-						// join items back
-						var newItems = notCourseItems;
-						courseItems.forEach((x) => newItems.push(x));
-
-						//console.log("newItems", newItems);
-						browser.storage.sync.set({recent_items: newItems});
 					});
-			}
+					//console.log("notCourseItems", notCourseItems);
+					//console.log("courseItems before", courseItems);
+
+					// remove old entries if there are too many of them
+					//TODO: try sort by timestamp and splice instead of while?
+					while(courseItems.length > 5) {
+						var oldestItem = courseItems.reduce((res, cur) => {
+							return res.timestamp < cur.timestamp ? res : cur;
+						});
+						//console.log("oldestItem", oldestItem.timestamp);
+						courseItems = courseItems.filter(item =>
+							item.timestamp != oldestItem.timestamp);
+					}
+					//console.log("courseItems after", courseItems);
+
+					// if the current entry exists in the history, remove it
+					courseItems = courseItems.filter(x => x.URL != entry.URL);
+
+					courseItems.push(entry);
+					//console.log("courseItems after 2", courseItems);
+
+					// join items back
+					var newItems = notCourseItems;
+					courseItems.forEach((x) => newItems.push(x));
+
+					//console.log("newItems", newItems);
+					browser.storage.sync.set({recent_items: newItems});
+				});
+		}
 
 		function addResourceCallbacks() {
 			var courseID = findCourseID();
