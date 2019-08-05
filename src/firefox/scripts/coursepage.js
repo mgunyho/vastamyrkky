@@ -19,11 +19,7 @@ browser.storage.sync.get([
 
 	if(res.show_recent_items_in_sidebar) {
 		//TODO: implement this for front page sidebar also
-		//window.addEventListener("load", //TODO: need to use this for mod/assign pages (links get moved around by javascript or something...)
-		//document.addEventListener("DOMContentLoaded", function()
 
-		function initRecentItems()
-		{
 			function addEntryToRecentItems(entry) {
 				/* Add an entry object to the list of recently accessed items.
 				 * `entry` should have the following attributes:
@@ -34,7 +30,7 @@ browser.storage.sync.get([
 				 * `URL`: URL of the file the link is pointing to
 				 */
 
-				console.log(entry);
+				//console.log(entry);
 
 				browser.storage.sync.get("recent_items")
 					.then((res) => {
@@ -45,7 +41,7 @@ browser.storage.sync.get([
 						var courseItems = [];
 						var notCourseItems = [];
 						items.forEach((x) => {
-							if(x.courseID == courseID) {
+							if(x.courseID == entry.courseID) {
 								courseItems.push(x);
 							} else {
 								notCourseItems.push(x);
@@ -79,10 +75,10 @@ browser.storage.sync.get([
 						//console.log("newItems", newItems);
 						browser.storage.sync.set({recent_items: newItems});
 					});
-			};
+			}
 
+		function addResourceCallbacks() {
 			var courseID = findCourseID();
-
 			hookResourceLinks((e) => {
 				//console.log(e);
 				var link = e.target.closest("a");
@@ -105,7 +101,10 @@ browser.storage.sync.get([
 				//console.log(entry);
 				addEntryToRecentItems(entry);
 			});
+		}
 
+		function addRecentItemsToSidebar()
+		{
 
 			var sidebar_navs_parent = document.getElementById("nav-drawer");
 			var sidebar_groups = sidebar_navs_parent.children;
@@ -118,6 +117,8 @@ browser.storage.sync.get([
 
 			//TODO: don't append if no recent items
 			nav.appendChild(title);
+
+			var courseID = findCourseID();
 
 			browser.storage.sync.get("recent_items")
 				.then((res) => {
@@ -133,8 +134,10 @@ browser.storage.sync.get([
 						a.addEventListener("click", (e) => {
 							var entry = Object.assign({}, item);
 							entry.timestamp = (new Date()).getTime();
+							console.log(entry);
 							addEntryToRecentItems(entry);
 						}, false);
+						a.dataset.vastamyrkkyId = generateShortUID(); // tag links created by us
 
 						a.innerHTML = `
 						<div class="m-l-0">
@@ -155,17 +158,28 @@ browser.storage.sync.get([
 
 			nav.classList.add("list-group", "m-t-1");
 			sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
-		};
-		//);
+		} // addRecentItemsToSidebar
 
-		//TODO: re-run hookResourceLinks on window.load (not DOMContentLoaded) ...
+		var isModPage = window.location.pathname.match("/mod/assign/view.php");
+
 		if(document.readyState !== 'loading') {
-			console.log("not loading");
-			initRecentItems();
+			addRecentItemsToSidebar();
+			if(!isModPage) addResourceCallbacks();
 		} else {
-			console.log("loading");
-			document.addEventListener("DOMContentLoaded", initRecentItems);
+			document.addEventListener("DOMContentLoaded", function() {
+				addRecentItemsToSidebar();
+				if(!isModPage) addResourceCallbacks();
+			});
 		}
+
+		if(isModPage) {
+			// on 'mod' pages, attach callbacks when the page has been completely loaded
+			window.addEventListener("load", function() {
+				console.log("isModPage load");
+				addResourceCallbacks();
+			});
+		}
+
 	}
 
 	if(res.activities_to_sidebar) {

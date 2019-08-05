@@ -52,12 +52,14 @@ function hookResourceLinks(callback) {
 		return ret;
 	});
 
-	console.log(links);
+	//console.log(links);
 
 	links.forEach((a) => {
-		//console.log(a);
-		//console.log(a.href);
-		//a.href = "#";
-		a.addEventListener("click", callback, false);
+		if(!a.dataset.vastamyrkkyId) { // avoid adding callback twice
+			//console.log(a);
+			//console.log(a.href);
+			//a.href = "#";
+			a.addEventListener("click", callback, false);
+		}
 	});
 }
