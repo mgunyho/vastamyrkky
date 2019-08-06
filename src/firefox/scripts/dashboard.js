@@ -19,6 +19,7 @@ function show_header() {
 
 browser.storage.sync.get([
 	"hide_dashboard_header",
+	"sort_latest_grades",
 	"show_recent_items_in_sidebar",
 ]).then((res) => {
 
@@ -43,6 +44,27 @@ browser.storage.sync.get([
 		}
 
 		onLoadInit(initHideDashboardHeader);
+	}
+
+	if(res.sort_latest_grades) {
+		onLoadInit(function() {
+			var grades = document.querySelector("#grades");
+			var tbody = grades.getElementsByTagName("tbody")[0];
+			console.log(tbody);
+			var rows = Array.from(tbody.getElementsByTagName("tr"));
+			function parseDate(row) {
+				console.log(row.children);
+				var td = row.children[1];
+				if(!td) return undefined; // eh
+				var dateString = td.children[0].innerHTML.split("<br>")[1];
+				dateString = dateString.replace(/\(|\)/g, "").trim();
+				dateString = dateString.split(".").reverse().join("-");
+				return dateString;
+			}
+			rows.map(row => tbody.removeChild(row))
+				.sort((a, b) => parseDate(a) < parseDate(b))
+				.forEach(row => tbody.appendChild(row));
+		});
 	}
 
 	if(res.show_recent_items_in_sidebar) {

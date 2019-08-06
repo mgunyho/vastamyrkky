@@ -2,6 +2,7 @@ function saveOptions(e) {
 	document.querySelector("#settings_saved_message").style.display = "none";
 	browser.storage.sync.set({
 		hide_dashboard_header: document.querySelector("#hide_dashboard_header").checked,
+		sort_latest_grades: document.querySelector("#sort_latest_grades").checked,
 		course_page_compact_header: document.querySelector("#course_page_compact_header").checked,
 		show_recent_items_in_sidebar: document.querySelector("#show_recent_items_in_sidebar").checked,
 		show_recent_items_in_sidebar_max: document.querySelector("#show_recent_items_in_sidebar_max").valueAsNumber,
@@ -24,6 +25,7 @@ function checkDefault(x, default_value) {
 function restoreOptions() {
 	browser.storage.sync.get([
 		"hide_dashboard_header",
+		"sort_latest_grades",
 		"course_page_compact_header",
 		"show_recent_items_in_sidebar",
 		"show_recent_items_in_sidebar_max",
@@ -35,6 +37,7 @@ function restoreOptions() {
 	]).then((res) => {
 		//console.log(res);
 		document.querySelector("#hide_dashboard_header").checked = res.hide_dashboard_header;
+		document.querySelector("#sort_latest_grades").checked = res.sort_latest_grades;
 		document.querySelector("#course_page_compact_header").checked = res.course_page_compact_header;
 
 		var recent_items_checkbox = document.querySelector("#show_recent_items_in_sidebar");
