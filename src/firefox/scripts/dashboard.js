@@ -50,10 +50,8 @@ browser.storage.sync.get([
 		onLoadInit(function() {
 			var grades = document.querySelector("#grades");
 			var tbody = grades.getElementsByTagName("tbody")[0];
-			console.log(tbody);
 			var rows = Array.from(tbody.getElementsByTagName("tr"));
 			function parseDate(row) {
-				console.log(row.children);
 				var td = row.children[1];
 				if(!td) return undefined; // eh
 				var dateString = td.children[0].innerHTML.split("<br>")[1];
