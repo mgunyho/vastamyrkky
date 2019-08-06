@@ -20,7 +20,6 @@ function show_header() {
 browser.storage.sync.get([
 	"hide_dashboard_header",
 	"show_recent_items_in_sidebar",
-	"sidebar_animation_duration"
 ]).then((res) => {
 
 	if(res.hide_dashboard_header) {
@@ -50,10 +49,6 @@ browser.storage.sync.get([
 		onLoadInit(function() {
 			addRecentItemsToSidebar(dashboard = true);
 		});
-	}
-
-	if(res.sidebar_animation_duration != undefined && res.sidebar_animation_duration < 0.5) {
-		setSidebarAnimationDuration(res.sidebar_animation_duration);
 	}
 
 });

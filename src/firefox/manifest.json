@@ -19,7 +19,12 @@
 		},
 		{
 		"matches": ["*://mycourses.aalto.fi/my/"],
-		"js": ["scripts/utility.js", "scripts/recent_items.js", "scripts/dashboard.js"],
+		"js": [
+			"scripts/utility.js",
+			"scripts/recent_items.js",
+			"scripts/dashboard.js",
+			"scripts/coursepage_dashboard.js"
+		],
 		"run_at": "document_start"
 		},
 		{
@@ -28,7 +33,12 @@
 			"*://mycourses.aalto.fi/mod/*",
 			"*://mycourses.aalto.fi/grade/*"
 		],
-		"js": ["scripts/utility.js", "scripts/recent_items.js", "scripts/coursepage.js"],
+		"js": [
+			"scripts/utility.js",
+			"scripts/recent_items.js",
+			"scripts/coursepage.js",
+			"scripts/coursepage_dashboard.js"
+		],
 		"run_at": "document_start"
 		}
 	],
