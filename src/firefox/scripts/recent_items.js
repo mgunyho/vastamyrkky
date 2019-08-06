@@ -3,8 +3,6 @@
  * of recently visited items.
  */
 
-const RECENT_ITEMS_MAX_LEN = 5; //TODO: make configurable
-
 function addEntryToRecentItems(entry) {
 	/* Add an entry object to the list of recently accessed items.
 	 * `entry` should have the following attributes:
@@ -17,8 +15,10 @@ function addEntryToRecentItems(entry) {
 
 	//console.log(entry);
 
-	browser.storage.sync.get("recent_items")
-		.then((res) => {
+	browser.storage.sync.get([
+			"recent_items",
+			"show_recent_items_in_sidebar_max"
+	]).then((res) => {
 			var items = res.recent_items || [];
 
 			// partition history into items that are for this course
@@ -37,11 +37,12 @@ function addEntryToRecentItems(entry) {
 
 			// remove old entries if there are too many of them
 			//TODO: try sort by timestamp and splice instead of while?
-			while(courseItems.length > RECENT_ITEMS_MAX_LEN) {
+
+			var max_items = res.show_recent_items_in_sidebar_max || 5;
+			while(courseItems.length > max_items) {
 				var oldestItem = courseItems.reduce((res, cur) => {
 					return res.timestamp < cur.timestamp ? res : cur;
 				});
-				//console.log("oldestItem", oldestItem.timestamp);
 				courseItems = courseItems.filter(item =>
 					item.timestamp != oldestItem.timestamp);
 			}
@@ -79,8 +80,10 @@ function addRecentItemsToSidebar(dashboard = false) {
 
 	var courseID = findCourseID();
 
-	browser.storage.sync.get("recent_items")
-		.then((res) => {
+	browser.storage.sync.get([
+			"recent_items",
+			"show_recent_items_in_sidebar_max"
+	]).then((res) => {
 			var courseItems;
 			if(!dashboard) {
 				courseItems = res.recent_items.filter(item =>
@@ -89,9 +92,11 @@ function addRecentItemsToSidebar(dashboard = false) {
 				courseItems = res.recent_items;
 			}
 
+			var max_items = res.show_recent_items_in_sidebar_max || 5; // eh, hardcoded default...
+
 			//console.log("courseID", courseID, "courseItems", courseItems);
 			courseItems = courseItems.sort((a, b) => {return a.timestamp < b.timestamp; });
-			courseItems.splice(RECENT_ITEMS_MAX_LEN); // TODO: make configurable
+			courseItems.splice(max_items)
 			courseItems.forEach((item) => {
 				var a = document.createElement("a");
 				a.href = item.URL;
