@@ -1,6 +1,7 @@
 browser.storage.sync.get([
 	"course_page_compact_header",
 	"show_recent_items_in_sidebar",
+	"prevent_forcedownload",
 	"activities_to_sidebar",
 	"sidebar_animation_duration" // TODO: move to 'common.js'
 ]).then((res) => {
@@ -39,6 +40,39 @@ browser.storage.sync.get([
 			});
 		}
 
+	}
+
+	if(res.prevent_forcedownload) {
+
+		//TODO: this should be done for dashboard also if there are entries in sidebar
+		function initPreventForceDownload() {
+			function clearForceDownload(a) {
+				if(a.href.match("forcedownload")) {
+					a.href = a.href.replace(/(\?|&)?forcedownload=1/g, "");
+				}
+			}
+			document.querySelectorAll("a").forEach(a => clearForceDownload(a));
+
+			// listener for new <a> nodes added to the DOM tree, clear those of forcedownload as well
+			(new MutationObserver(function(mutations, observer) {
+				mutations.forEach(mut => {
+					mut.addedNodes.forEach(node => {
+						if(node.tagName === "A") {
+							clearForceDownload(node);
+						}
+					});
+				});
+			})).observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		}
+
+		if(document.readyState !== "loading") {
+			initPreventForceDownload();
+		} else {
+			document.addEventListener("DOMContentLoaded", initPreventForceDownload);
+		}
 	}
 
 	if(res.activities_to_sidebar) {

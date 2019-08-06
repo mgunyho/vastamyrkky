@@ -7,6 +7,7 @@ function saveOptions(e) {
 		show_recent_items_in_sidebar_max: document.querySelector("#show_recent_items_in_sidebar_max").valueAsNumber,
 		//TODO: 'show recent items at the top of the sidebar'
 		//TODO: 'no. of recent items to show on front page (checkbox for "same as sidebar")' (?)
+		prevent_forcedownload: document.querySelector("#prevent_forcedownload").checked,
 		activities_to_sidebar: document.querySelector("#activities_to_sidebar").checked,
 		sidebar_animation_duration: document.querySelector("#sidebar_animation_duration").valueAsNumber,
 		redirect_loginpage: document.querySelector("#redirect_loginpage").value,
@@ -26,6 +27,7 @@ function restoreOptions() {
 		"course_page_compact_header",
 		"show_recent_items_in_sidebar",
 		"show_recent_items_in_sidebar_max",
+		"prevent_forcedownload",
 		"activities_to_sidebar",
 		"sidebar_animation_duration",
 		"redirect_loginpage",
@@ -41,6 +43,7 @@ function restoreOptions() {
 
 		document.querySelector("#show_recent_items_in_sidebar_max").valueAsNumber = checkDefault(res.show_recent_items_in_sidebar_max, 5);
 
+		document.querySelector("#prevent_forcedownload").checked = res.prevent_forcedownload;
 		document.querySelector("#activities_to_sidebar").checked = res.activities_to_sidebar;
 
 		var sidebar_duration_slider = document.querySelector("#sidebar_animation_duration");
