@@ -6,8 +6,7 @@ function saveOptions(e) {
 		show_recent_items_in_sidebar: document.querySelector("#show_recent_items_in_sidebar").checked,
 		show_recent_items_in_sidebar_max: document.querySelector("#show_recent_items_in_sidebar_max").valueAsNumber,
 		//TODO: 'show recent items at the top of the sidebar'
-		//TODO: 'no. of recent items to show in sidebar'
-		//TODO: 'no. of recent items to show on front page (checkbox for "same as sidebar")'
+		//TODO: 'no. of recent items to show on front page (checkbox for "same as sidebar")' (?)
 		activities_to_sidebar: document.querySelector("#activities_to_sidebar").checked,
 		sidebar_animation_duration: document.querySelector("#sidebar_animation_duration").valueAsNumber,
 		redirect_loginpage: document.querySelector("#redirect_loginpage").value,

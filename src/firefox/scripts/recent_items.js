@@ -32,33 +32,20 @@ function addEntryToRecentItems(entry) {
 					notCourseItems.push(x);
 				}
 			});
-			//console.log("notCourseItems", notCourseItems);
-			//console.log("courseItems before", courseItems);
 
 			// remove old entries if there are too many of them
-			//TODO: try sort by timestamp and splice instead of while?
-
 			var max_items = res.show_recent_items_in_sidebar_max || 5;
-			while(courseItems.length > max_items) {
-				var oldestItem = courseItems.reduce((res, cur) => {
-					return res.timestamp < cur.timestamp ? res : cur;
-				});
-				courseItems = courseItems.filter(item =>
-					item.timestamp != oldestItem.timestamp);
-			}
-			//console.log("courseItems after", courseItems);
+			courseItems = courseItems.sort((a, b) => a.timestamp < b.timestamp);
+			courseItems.splice(max_items)
 
 			// if the current entry exists in the history, remove it
 			courseItems = courseItems.filter(x => x.URL != entry.URL);
-
 			courseItems.push(entry);
-			//console.log("courseItems after 2", courseItems);
 
 			// join items back
 			var newItems = notCourseItems;
 			courseItems.forEach((x) => newItems.push(x));
 
-			//console.log("newItems", newItems);
 			browser.storage.sync.set({recent_items: newItems});
 		});
 }
@@ -92,10 +79,10 @@ function addRecentItemsToSidebar(dashboard = false) {
 				courseItems = res.recent_items;
 			}
 
-			var max_items = res.show_recent_items_in_sidebar_max || 5; // eh, hardcoded default...
 
 			//console.log("courseID", courseID, "courseItems", courseItems);
-			courseItems = courseItems.sort((a, b) => {return a.timestamp < b.timestamp; });
+			var max_items = res.show_recent_items_in_sidebar_max || 5; // eh, hardcoded default...
+			courseItems = courseItems.sort((a, b) => a.timestamp < b.timestamp);
 			courseItems.splice(max_items)
 			courseItems.forEach((item) => {
 				var a = document.createElement("a");
