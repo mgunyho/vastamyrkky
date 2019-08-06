@@ -18,7 +18,10 @@
 		"run_at": "document_start"
 		},
 		{
-		"matches": ["*://mycourses.aalto.fi/my/"],
+		"matches": [
+			"*://mycourses.aalto.fi/my/",
+			"*://mycourses.aalto.fi/my/index.php*"
+		],
 		"js": [
 			"scripts/utility.js",
 			"scripts/recent_items.js",
