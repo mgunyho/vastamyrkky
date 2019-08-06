@@ -91,7 +91,6 @@ function addRecentItemsToSidebar(dashboard = false) {
 				a.addEventListener("click", (e) => {
 					var entry = Object.assign({}, item);
 					entry.timestamp = (new Date()).getTime();
-					//console.log(entry);
 					addEntryToRecentItems(entry);
 				}, false);
 				a.dataset.vastamyrkkyId = generateShortUID(); // tag links created by us
@@ -155,7 +154,6 @@ function addResourceCallbacks() {
 
 	var courseID = findCourseID();
 	hookResourceLinks((e) => {
-		//console.log(e);
 		var link = e.target.closest("a");
 		var span = link.querySelector("span");
 		var resourceName;
@@ -173,7 +171,6 @@ function addResourceCallbacks() {
 			timestamp: (new Date()).getTime(),
 			URL: link.href,
 		};
-		//console.log(entry);
 		addEntryToRecentItems(entry);
 	});
 }
