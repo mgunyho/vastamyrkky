@@ -1,4 +1,5 @@
 function saveOptions(e) {
+	document.querySelector("#settings_saved_message").style.display = "none";
 	browser.storage.sync.set({
 		hide_dashboard_header: document.querySelector("#hide_dashboard_header").checked,
 		course_page_compact_header: document.querySelector("#course_page_compact_header").checked,
@@ -11,6 +12,8 @@ function saveOptions(e) {
 		sidebar_animation_duration: document.querySelector("#sidebar_animation_duration").valueAsNumber,
 		redirect_loginpage: document.querySelector("#redirect_loginpage").value,
 		disable_login_dropshadow: document.querySelector("#disable_login_dropshadow").checked
+	}).then((res) => {
+		document.querySelector("#settings_saved_message").style.display = "";
 	});
 	e.preventDefault();
 }
