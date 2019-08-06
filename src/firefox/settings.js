@@ -35,8 +35,13 @@ function restoreOptions() {
 		//console.log(res);
 		document.querySelector("#hide_dashboard_header").checked = res.hide_dashboard_header;
 		document.querySelector("#course_page_compact_header").checked = res.course_page_compact_header;
-		document.querySelector("#show_recent_items_in_sidebar").checked = res.show_recent_items_in_sidebar;
+
+		var recent_items_checkbox = document.querySelector("#show_recent_items_in_sidebar");
+		recent_items_checkbox.checked = res.show_recent_items_in_sidebar;
+		recent_items_checkbox.dispatchEvent(new Event("input", {"bubbles": true, "cancelable": true}));
+
 		document.querySelector("#show_recent_items_in_sidebar_max").valueAsNumber = checkDefault(res.show_recent_items_in_sidebar_max, 5);
+
 		document.querySelector("#activities_to_sidebar").checked = res.activities_to_sidebar;
 
 		var sidebar_duration_slider = document.querySelector("#sidebar_animation_duration");
@@ -50,10 +55,19 @@ function restoreOptions() {
 
 document.addEventListener("DOMContentLoaded", function() {
 	// some initialization stuff
+	document.querySelector("#show_recent_items_in_sidebar").addEventListener("input", (e) => {
+		var b = e.srcElement.checked;
+		var sel = document.querySelector("#show_recent_items_in_sidebar_max");
+		sel.disabled = !b;
+		if(b) {
+			sel.closest("label").classList.remove("disabled");
+		} else {
+			sel.closest("label").classList.add("disabled");
+		}
+	});
 	document.querySelector("#sidebar_animation_duration").addEventListener("input", (e) => {
-				document.querySelector("#sidebar_duration_display").innerText = e.srcElement.valueAsNumber.toFixed(2);
-			}
-	);
+		document.querySelector("#sidebar_duration_display").innerText = e.srcElement.valueAsNumber.toFixed(2);
+	});
 	document.querySelector("form").addEventListener("submit", saveOptions);
 });
 document.addEventListener("DOMContentLoaded", restoreOptions);

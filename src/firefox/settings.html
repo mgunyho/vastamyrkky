@@ -14,6 +14,9 @@ label {
 	display:inline-block;
 	margin-bottom: 1em;
 }
+.disabled {
+	opacity: 0.5;
+}
 /* pure-css tooltip, from https://stackoverflow.com/a/25813336 */
 [tooltip]:before {
 	position: absolute;
@@ -55,7 +58,7 @@ label {
 			<input type="checkbox" id="show_recent_items_in_sidebar" />
 			Show recent items in sidebar
 			</label><br />
-			<label>
+			<label class="disabled">
 			Maximum no. of items to show in sidebar:
 			<input type="number" id="show_recent_items_in_sidebar_max" min="1" max="999" />
 			</label><br />
