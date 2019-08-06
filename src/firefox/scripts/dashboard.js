@@ -43,22 +43,13 @@ browser.storage.sync.get([
 			document.getElementById("page-navbar").appendChild(show_header_btn_div);
 		}
 
-		if(document.readyState !== "loading") {
-			initHideDashboardHeader();
-		} else {
-			document.addEventListener("DOMContentLoaded", initHideDashboardHeader);
-		}
-
+		onLoadInit(initHideDashboardHeader);
 	}
 
 	if(res.show_recent_items_in_sidebar) {
-		if(document.readyState !== "loading") {
+		onLoadInit(function() {
 			addRecentItemsToSidebar(dashboard = true);
-		} else {
-			document.addEventListener("DOMContentLoaded", function() {
-				addRecentItemsToSidebar(dashboard = true);
-			});
-		}
+		});
 	}
 
 	if(res.sidebar_animation_duration != undefined && res.sidebar_animation_duration < 0.5) {

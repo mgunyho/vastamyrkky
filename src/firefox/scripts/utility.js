@@ -8,6 +8,15 @@ function injectCSS(css) {
 	document.getElementsByTagName('head')[0].appendChild(style);
 }
 
+function onLoadInit(callback) {
+	// correctly call an initializer function when the page has been loaded
+	if(document.readyState !== "loading") {
+		callback();
+	} else {
+		document.addEventListener("DOMContentLoaded", callback);
+	}
+}
+
 function setSidebarAnimationDuration(duration) {
 	if(duration == undefined) return;
 	var transition = `margin-left ${duration}s ease,margin-right ${duration}s ease,left ${duration}s ease,right ${duration}s ease`;

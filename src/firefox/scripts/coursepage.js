@@ -22,15 +22,10 @@ browser.storage.sync.get([
 
 		var isModPage = window.location.pathname.match("/mod/assign/view.php");
 
-		if(document.readyState !== 'loading') {
+		onLoadInit(function() {
 			addRecentItemsToSidebar();
 			if(!isModPage) addResourceCallbacks();
-		} else {
-			document.addEventListener("DOMContentLoaded", function() {
-				addRecentItemsToSidebar();
-				if(!isModPage) addResourceCallbacks();
-			});
-		}
+		});
 
 		if(isModPage) {
 			// on 'mod' pages, attach callbacks when the page has been completely loaded
@@ -68,11 +63,7 @@ browser.storage.sync.get([
 			});
 		}
 
-		if(document.readyState !== "loading") {
-			initPreventForceDownload();
-		} else {
-			document.addEventListener("DOMContentLoaded", initPreventForceDownload);
-		}
+		onLoadInit(initPreventForceDownload);
 	}
 
 	if(res.activities_to_sidebar) {
@@ -113,11 +104,7 @@ browser.storage.sync.get([
 
 		}
 
-		if(document.readyState !== 'loading') {
-			initSidebarActivities();
-		} else {
-			document.addEventListener("DOMContentLoaded", initSidebarActivities);
-		}
+		onLoadInit(initSidebarActivities);
 
 		injectCSS("#courseactivitymenu { display: none; }");
 	}
