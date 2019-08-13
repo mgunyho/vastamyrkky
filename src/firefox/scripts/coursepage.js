@@ -1,5 +1,6 @@
 browser.storage.sync.get([
 	"course_page_compact_header",
+	"course_page_title_link",
 	"show_recent_items_in_sidebar",
 	"activities_to_sidebar",
 ]).then((res) => {
@@ -14,6 +15,21 @@ browser.storage.sync.get([
 		css += ".pull-xs-left { height: 100%; }"
 
 		injectCSS(css);
+	}
+
+	if(res.course_page_title_link) {
+		onLoadInit(function() {
+			var a = Array.from(document.querySelectorAll("a")).find(a => a.dataset.key === "coursehome");
+			var url = a.href;
+			var h1 = document.querySelector("h1");
+
+			var css = "h1 a { color: inherit; }";
+			css += "h1 a:visited { color: inherit; }";
+			css += "h1 a:hover { text-decoration: none; }";
+			injectCSS(css);
+
+			h1.innerHTML = `<a href=${url}>${h1.innerHTML}</a>`;
+		});
 	}
 
 	if(res.show_recent_items_in_sidebar) {
