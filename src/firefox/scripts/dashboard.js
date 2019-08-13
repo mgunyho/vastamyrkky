@@ -34,6 +34,7 @@ browser.storage.sync.get([
 			//arrows: left: '\uf100', right: '\uf101', up: '\uf102', down: '\uf103';
 			show_header_btn.innerText = '\uf103';
 			show_header_btn.setAttribute("id", "header_toggle_button");
+			show_header_btn.setAttribute("title", "Toggle header");
 			show_header_btn.onclick = show_header;
 
 			var show_header_btn_div = document.createElement("div");
