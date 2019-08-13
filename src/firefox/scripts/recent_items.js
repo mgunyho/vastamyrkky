@@ -39,7 +39,10 @@ function addEntryToRecentItems(entry) {
 			courseItems.splice(max_items)
 
 			// if the current entry exists in the history, remove it
-			courseItems = courseItems.filter(x => x.URL != entry.URL);
+			function strip(url) {
+				return url.replace(/(\?|&)?forcedownload=\d/g, "");
+			}
+			courseItems = courseItems.filter(x => strip(x.URL) != strip(entry.URL));
 			courseItems.push(entry);
 
 			// join items back
