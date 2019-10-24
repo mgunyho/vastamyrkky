@@ -1,7 +1,7 @@
 # Vastamyrkky: Tweaks for MyCourses
 
 Vastamyrkky is a browser extension that allows you to tweak the MyCourses
-learning environment used in Aalto University. Currently, it works for Firefox,
+learning environment in use at Aalto University. Currently, it works for Firefox,
 but it shouldn't be too difficult to port to Chrome.
 
 ## Hacking on Firefox
