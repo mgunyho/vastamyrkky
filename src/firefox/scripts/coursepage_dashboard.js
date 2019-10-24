@@ -11,6 +11,9 @@ browser.storage.sync.get([
 	if(res.prevent_forcedownload) {
 
 		function initPreventForceDownload() {
+			//TODO: modify PDF mime type in request headers to really prevent forcedownload?
+			//see e.g. addListener() in https://github.com/didierfred/SimpleModifyHeaders/blob/master/background.js
+			//also see https://stackoverflow.com/questions/6293893/how-do-i-force-files-to-open-in-the-browser-instead-of-downloading-pdf
 			function clearForceDownload(a) {
 				if(a.href.match("forcedownload")) {
 					a.href = a.href.replace(/(\?|&)?forcedownload=1/g, "");
