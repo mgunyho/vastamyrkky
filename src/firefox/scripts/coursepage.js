@@ -52,6 +52,7 @@ browser.storage.sync.get([
 	}
 
 	if(res.activities_to_sidebar) {
+		//TODO: if there are no activities, don't add header
 		function initSidebarActivities() {
 			var menu = document.getElementById("courseactivitymenu");
 			var links = Array.from(menu.children);

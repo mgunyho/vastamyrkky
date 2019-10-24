@@ -134,6 +134,7 @@ function hookResourceLinks(callback) {
 	var links = Array.from(document.querySelectorAll("a")).filter((a) => {
 		var ret = Boolean(a.href.match("https?://mycourses.aalto.fi/mod/resource"));
 		ret |= Boolean(a.href.match(/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_assign\/introattachment/));
+	//TODO: URL https://mycourses.aalto.fi/pluginfile.php/1076188/mod_folder/content/0/Harjoitus2B.pdf?forcedownload=1 is not matched
 
 		return ret;
 	});
