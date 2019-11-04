@@ -11,7 +11,7 @@ but it shouldn't be too difficult to port to Chrome.
 1. Click `This Firefox` and `Load Temporary Add-on...` and navigate to the `manifest.json` file in `vastamyrkky/src/firefox/`.
 1. Change the extension settings by clicking on the extension icon in the toolbar or going to `about:addons`.
 
-## Adding a new option
+## Adding a new setting
 
 To add a new setting, follow these steps:
 
@@ -22,5 +22,5 @@ To add a new setting, follow these steps:
 
 ## Packaging
 
-To package the extension for releasing for Firefox, run `make firefox` in the
-root directory,
+To package the extension for release for Firefox, run `make firefox` in the
+root directory.
