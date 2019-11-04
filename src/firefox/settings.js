@@ -65,14 +65,30 @@ document.addEventListener("DOMContentLoaded", function() {
 	// some initialization stuff
 	document.querySelector("#show_recent_items_in_sidebar").addEventListener("input", (e) => {
 		var b = e.srcElement.checked;
-		var sel = document.querySelector("#show_recent_items_in_sidebar_max");
-		sel.disabled = !b;
-		if(b) {
-			sel.closest("label").classList.remove("disabled");
-		} else {
-			sel.closest("label").classList.add("disabled");
-		}
+		var ids = [
+			"#show_recent_items_in_sidebar_max",
+			"#clear_recent_items",
+		];
+		ids.forEach(id => {
+			var sel = document.querySelector(id);
+			sel.disabled = !b;
+			if(b) {
+				sel.closest("label").classList.remove("disabled");
+			} else {
+				sel.closest("label").classList.add("disabled");
+			}
+		});
 	});
+
+	document.querySelector("#clear_recent_items").addEventListener("click", (e) => {
+		document.querySelector("#recent_items_cleared_message").style.display = "none";
+		browser.storage.sync.set({
+			"recent_items": []
+		}).then((res) => {
+			document.querySelector("#recent_items_cleared_message").style.display = "inline";
+		});
+	});
+
 	document.querySelector("#sidebar_animation_duration").addEventListener("input", (e) => {
 		document.querySelector("#sidebar_duration_display").innerText = e.srcElement.valueAsNumber.toFixed(2);
 	});
