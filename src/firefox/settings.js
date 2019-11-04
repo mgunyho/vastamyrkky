@@ -9,6 +9,7 @@ function saveOptions(e) {
 		show_recent_items_in_sidebar_max: document.querySelector("#show_recent_items_in_sidebar_max").valueAsNumber,
 		//TODO: 'show recent items at the top of the sidebar'
 		//TODO: 'no. of recent items to show on front page (checkbox for "same as sidebar")' (?)
+		//TODO: add option to always force download?
 		prevent_forcedownload: document.querySelector("#prevent_forcedownload").checked,
 		activities_to_sidebar: document.querySelector("#activities_to_sidebar").checked,
 		sidebar_animation_duration: document.querySelector("#sidebar_animation_duration").valueAsNumber,
