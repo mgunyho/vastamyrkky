@@ -56,18 +56,6 @@ function addEntryToRecentItems(entry) {
 function addRecentItemsToSidebar(dashboard = false) {
 	// if dashboard == true, assume we're on the dashboard and add course items from all courses
 
-	var sidebar_navs_parent = document.getElementById("nav-drawer");
-	var sidebar_groups = sidebar_navs_parent.children;
-
-	var nav = document.createElement("nav");
-
-	var title = document.createElement("p");
-	title.classList.add("list-group-item");
-	title.innerText = "Recent items";
-
-	//TODO: don't append if no recent items
-	nav.appendChild(title);
-
 	var courseID = findCourseID();
 
 	browser.storage.sync.get([
@@ -87,24 +75,37 @@ function addRecentItemsToSidebar(dashboard = false) {
 			var max_items = res.show_recent_items_in_sidebar_max || 5; // eh, hardcoded default...
 			courseItems = courseItems.sort((a, b) => a.timestamp < b.timestamp);
 			courseItems.splice(max_items)
-			courseItems.forEach((item) => {
-				var a = document.createElement("a");
-				a.href = item.URL;
-				a.classList.add("list-group-item");
-				a.addEventListener("click", (e) => {
-					var entry = Object.assign({}, item);
-					entry.timestamp = (new Date()).getTime();
-					addEntryToRecentItems(entry);
-				}, false);
-				a.dataset.vastamyrkkyId = generateShortUID(); // tag links created by us
 
-				var linkText = item.resourceName;
-				if(dashboard) {
-					//TODO: good? okay to use split? add option for no prefix?
-					linkText = item.courseTitle.split(" - ")[0] + " " + linkText;
-				}
+			if(courseItems.length > 0) {
+				console.log("courseItems", courseItems);
 
-				a.innerHTML = `
+				var nav = document.createElement("nav");
+
+				var title = document.createElement("p");
+				title.classList.add("list-group-item");
+				title.innerText = "Recent items";
+
+				nav.appendChild(title);
+				nav.classList.add("list-group", "m-t-1");
+
+				courseItems.forEach((item) => {
+					var a = document.createElement("a");
+					a.href = item.URL;
+					a.classList.add("list-group-item");
+					a.addEventListener("click", (e) => {
+						var entry = Object.assign({}, item);
+						entry.timestamp = (new Date()).getTime();
+						addEntryToRecentItems(entry);
+					}, false);
+					a.dataset.vastamyrkkyId = generateShortUID(); // tag links created by us
+
+					var linkText = item.resourceName;
+					if(dashboard) {
+						//TODO: good? okay to use split? add option for no prefix?
+						linkText = item.courseTitle.split(" - ")[0] + " " + linkText;
+					}
+
+					a.innerHTML = `
 					<div class="m-l-0">
 					<div class="media">
 					<span class="media-left">
@@ -115,14 +116,17 @@ function addRecentItemsToSidebar(dashboard = false) {
 					</div>
 					`;
 
-				nav.appendChild(a);
-			});
+					nav.appendChild(a);
+				});
+
+				var sidebar_navs_parent = document.getElementById("nav-drawer");
+				var sidebar_groups = sidebar_navs_parent.children;
+				sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
+			}
 
 		});
 
 
-	nav.classList.add("list-group", "m-t-1");
-	sidebar_navs_parent.insertBefore(nav, sidebar_groups[sidebar_groups.length - 1]);
 } // addRecentItemsToSidebar
 
 function hookResourceLinks(callback) {
