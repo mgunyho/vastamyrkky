@@ -4,6 +4,7 @@ browser.browserAction.onClicked.addListener(function() {
 });
 
 //TODO: only do this if prevent force dl is enabled in settings
+//TODO: remove 'doesn't work 100% of the time' from settings html
 browser.webRequest.onHeadersReceived.addListener(function(e) {
 	for(var header of e.responseHeaders) {
 		//console.log(header);
