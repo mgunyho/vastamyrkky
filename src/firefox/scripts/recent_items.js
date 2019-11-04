@@ -129,44 +129,59 @@ function addRecentItemsToSidebar(dashboard = false) {
 
 } // addRecentItemsToSidebar
 
-function hookResourceLinks(callback) {
-	// find all links on the page, and attach the function 'callback' to all
-	// links that are 'resources', i.e. PDF files and such that should be added
-	// to the recent items list. Actually adding them to the recent items
-	// should be handled by 'callback'
-
-	var links = Array.from(document.querySelectorAll("a")).filter((a) => {
-		var ret = Boolean(a.href.match("https?://mycourses.aalto.fi/mod/resource"));
-		ret |= Boolean(a.href.match(/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_assign\/introattachment/));
-	//TODO: URL https://mycourses.aalto.fi/pluginfile.php/1076188/mod_folder/content/0/Harjoitus2B.pdf?forcedownload=1 is not matched
-
-		return ret;
-	});
-
-	//console.log(links);
-
+function hookCallback(links, callback) {
+	/*
+	 * Attach a callback to a list of link nodes.
+	 */
 	links.forEach((a) => {
 		if(!a.dataset.vastamyrkkyId) { // avoid adding callback twice
-			//console.log(a);
-			//console.log(a.href);
 			//a.href = "#";
+			//console.log("adding event listener", a);
 			a.addEventListener("click", callback, false);
 		}
 	});
 }
 
+function filterResourceLinks(links) {
+	/*
+	 * Given a list of links, figure out and return those that are "resources",
+	 * i.e. PDFs.
+	 */
+	return Array.from(links).filter(a => {
+		var ptns = [
+			"https?://mycourses.aalto.fi/mod/resource",
+			/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_assign\/introattachment/,
+			/https?:\/\/mycourses.aalto.fi\/pluginfile.php\/\d+\/mod_folder\/.*\.pdf/,
+		];
+		var ret = false;
+		ptns.forEach(ptn => ret |= Boolean(a.href.match(ptn)));
+		//if(ret) { console.log(a); }
+		return ret;
+	});
+}
+
 function addResourceCallbacks() {
 	/*
-	 * Attach a callback function using hookResourceLinks
+	 * Attach a callback function to all "resource" links on the page, as well
+	 * as to new resource links as they are dynamically added.
 	 */
 
 	var courseID = findCourseID();
-	hookResourceLinks((e) => {
+
+	// the callback that will be added
+	function addEntryCallback(e) {
 		var link = e.target.closest("a");
 		var span = link.querySelector("span");
 		var resourceName;
+		console.log("span", span);
+		console.log("link", link);
 		if(span) {
-			resourceName = span.firstChild.textContent.trim();
+			if(span.classList.contains("fp-icon")) {
+				// special case for mod_folder
+				resourceName = span.parentElement.textContent.trim();
+			} else {
+				resourceName = span.firstChild.textContent.trim();
+			}
 		} else {
 			resourceName = link.textContent.trim();
 		}
@@ -180,5 +195,24 @@ function addResourceCallbacks() {
 			URL: link.href,
 		};
 		addEntryToRecentItems(entry);
-	});
-}
+	}
+
+	// attach callback to all resource links on page
+	hookCallback(filterResourceLinks(document.querySelectorAll("a")),
+		         addEntryCallback);
+
+	// also attach callbacks whenever new links are added using the MutationObserver API
+	(new MutationObserver(function(mutationList, observer) {
+		mutationList.forEach(mut => {
+			if(mut.type === "childList") {
+				//console.log("observed mutation:", mut);
+				Array.from(mut.addedNodes).forEach(node => {
+					//console.log("added node with links:", links);
+					hookCallback(filterResourceLinks(node.querySelectorAll("a")),
+						         addEntryCallback);
+				});
+			}
+		});
+	})).observe(document.querySelector("#page-wrapper"),
+		        {subtree: true, childList: true});
+} // addResourceCallbacks
