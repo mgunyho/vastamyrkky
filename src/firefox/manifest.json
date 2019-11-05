@@ -52,6 +52,8 @@
 	],
 
 	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
 		"*://mycourses.aalto.fi/*",
 		"storage"
 	],
