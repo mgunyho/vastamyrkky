@@ -7,7 +7,7 @@ default:
 	@echo "run 'make firefox' to package for Firefox"
 
 firefox:
-	zip -r -FS $(FIREFOX_PACKAGE) src/firefox/* -x src/firefox/icons/*xcf
+	cd src/firefox; zip -r -FS ../../$(FIREFOX_PACKAGE) . -x icons/*xcf
 
 all: firefox
 
