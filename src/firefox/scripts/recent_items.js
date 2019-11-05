@@ -173,8 +173,6 @@ function addResourceCallbacks() {
 		var link = e.target.closest("a");
 		var span = link.querySelector("span");
 		var resourceName;
-		console.log("span", span);
-		console.log("link", link);
 		if(span) {
 			if(span.classList.contains("fp-icon")) {
 				// special case for mod_folder

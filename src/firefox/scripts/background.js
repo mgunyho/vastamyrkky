@@ -8,13 +8,14 @@ browser.browserAction.onClicked.addListener(function() {
 // the Content-Disposition HTTP header being "attachment". This is a callback
 // function that replaces "attachment" with "inline" in the headers, which
 // should open PDF files in a new tab instead of downloading.
-function convertAttachmentToInline(e) {
+function convertPDFAttachmentToInline(e) {
 	for(var header of e.responseHeaders) {
 		if(header.name.toLowerCase() === "content-disposition") {
 			var s = header.value.split(" ");
-			if(s[0] === "attachment;") {
-				header.value = "inline; " + s[1];
+			var ptn = /filename=".*\.pdf/;
+			if(s[0] === "attachment;" && s[1].match(ptn)) {
 				//console.log(header);
+				header.value = "inline; " + s[1];
 			}
 		}
 	}
@@ -25,7 +26,7 @@ function convertAttachmentToInline(e) {
 
 function addConvertListenerToHeadersReceived() {
 	browser.webRequest.onHeadersReceived.addListener(
-		convertAttachmentToInline,
+		convertPDFAttachmentToInline,
 		{"urls": ["*://mycourses.aalto.fi/*"]},
 		["blocking", "responseHeaders"]
 	);
@@ -47,7 +48,7 @@ browser.storage.onChanged.addListener((changes, area) => {
 		if(changes.prevent_forcedownload.newValue === true) {
 			addConvertListenerToHeadersReceived();
 		} else {
-			browser.webRequest.onHeadersReceived.removeListener(convertAttachmentToInline);
+			browser.webRequest.onHeadersReceived.removeListener(convertPDFAttachmentToInline);
 		}
 	}
 });
