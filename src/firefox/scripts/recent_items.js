@@ -77,7 +77,7 @@ function addRecentItemsToSidebar(dashboard = false) {
 			courseItems.splice(max_items)
 
 			if(courseItems.length > 0) {
-				console.log("courseItems", courseItems);
+				//console.log("courseItems", courseItems);
 
 				var nav = document.createElement("nav");
 
