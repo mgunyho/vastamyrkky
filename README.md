@@ -1,8 +1,45 @@
 # Vastamyrkky: Tweaks for MyCourses
 
-Vastamyrkky is a browser extension that allows you to tweak the MyCourses
-learning environment in use at Aalto University. Currently, it works for Firefox,
-but it shouldn't be too difficult to port to Chrome.
+Vastamyrkky is a browser extension containing a collection of monkey-patches
+that allow you to tweak the MyCourses learning environment in use at Aalto
+University. This is what the MyCourses dashboard page looks like by default:
+
+![dashboard-default](screenshots/dashboard-default.png)
+
+And this is what it looks like with all settings enabled in Vastamyrkky:
+
+![dashboard-vm](screenshots/dashboard-vm.png)
+
+This is a course page by default:
+
+![coursepage-default](screenshots/coursepage-default.png)
+
+This is the same course page with Vastamyrkky:
+
+![coursepage-vm](screenshots/coursepage-vm.png)
+
+Customizable settings in Vastamyrkky include
+
+- Redirect login page to Aalto login
+- Show recent items such as PDFs in the sidebar
+- Prevent force download of PDF files
+- Make sidebar animation faster or disable it completely
+
+Most of the settings have quite minor effects, but all of them aim to make the
+MyCourses experience slightly smoother. The philosophy is to work with what we
+have and not redo the whole layout from scratch (although that might be an idea
+worth pursuing with MyCourses).
+
+Currently, Vastamyrkky is only available for Firefox, but it shouldn't be too
+difficult to port to Chrome.
+
+Any feature may break whenever MyCourses is updated. If you find a bug or have
+a feature request, feel free to open an issue or pull request here on GitHub!
+
+Vastamyrkky doesn't store any of your personal information, except for a list
+of recently viewed items if you enable it. All information is only read from
+the HTML of the page as it is being displayed to you and it is never sent
+anywhere.
 
 ## Hacking
 
