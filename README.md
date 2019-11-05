@@ -63,3 +63,8 @@ To add a new setting, follow these steps:
 
 To package the extension for release for Firefox, run `make firefox` in the
 root directory.
+
+
+## License
+
+All source code is licensed under the MIT license. See [LICENSE](LICENSE.txt).
