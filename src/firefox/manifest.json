@@ -1,71 +1,71 @@
 {
-	"manifest_version": 2,
-	"name": "Vastamyrkky",
-	"version": "0.1",
-	"options_ui": {
-		"page": "settings.html",
-		"browser_style": true,
-		"chrome_style": true
-	},
-	"browser_action": {
-	},
-	"background": {
-		"scripts": ["scripts/background.js"]
-	},
-	"content_scripts": [
-		{
-		"matches": [
-			"*://mycourses.aalto.fi/",
-			"*://mycourses.aalto.fi/login/index.php",
-			"https://mycourses.aalto.fi/?redirect=0"
-		],
-		"js": ["scripts/utility.js", "scripts/loginpage.js"],
-		"run_at": "document_start"
-		},
-		{
-		"matches": [
-			"*://mycourses.aalto.fi/my/",
-			"*://mycourses.aalto.fi/my/index.php*"
-		],
-		"js": [
-			"scripts/utility.js",
-			"scripts/recent_items.js",
-			"scripts/dashboard.js",
-			"scripts/coursepage_dashboard.js"
-		],
-		"run_at": "document_start"
-		},
-		{
-		"matches": [
-			"*://mycourses.aalto.fi/course/*",
-			"*://mycourses.aalto.fi/mod/*",
-			"*://mycourses.aalto.fi/grade/*"
-		],
-		"js": [
-			"scripts/utility.js",
-			"scripts/recent_items.js",
-			"scripts/coursepage.js",
-			"scripts/coursepage_dashboard.js"
-		],
-		"run_at": "document_start"
-		}
-	],
+    "manifest_version": 2,
+    "name": "Vastamyrkky",
+    "version": "0.1",
+    "options_ui": {
+        "page": "settings.html",
+        "browser_style": true,
+        "chrome_style": true
+    },
+    "browser_action": {
+    },
+    "background": {
+        "scripts": ["scripts/background.js"]
+    },
+    "content_scripts": [
+        {
+        "matches": [
+            "*://mycourses.aalto.fi/",
+            "*://mycourses.aalto.fi/login/index.php",
+            "https://mycourses.aalto.fi/?redirect=0"
+        ],
+        "js": ["scripts/utility.js", "scripts/loginpage.js"],
+        "run_at": "document_start"
+        },
+        {
+        "matches": [
+            "*://mycourses.aalto.fi/my/",
+            "*://mycourses.aalto.fi/my/index.php*"
+        ],
+        "js": [
+            "scripts/utility.js",
+            "scripts/recent_items.js",
+            "scripts/dashboard.js",
+            "scripts/coursepage_dashboard.js"
+        ],
+        "run_at": "document_start"
+        },
+        {
+        "matches": [
+            "*://mycourses.aalto.fi/course/*",
+            "*://mycourses.aalto.fi/mod/*",
+            "*://mycourses.aalto.fi/grade/*"
+        ],
+        "js": [
+            "scripts/utility.js",
+            "scripts/recent_items.js",
+            "scripts/coursepage.js",
+            "scripts/coursepage_dashboard.js"
+        ],
+        "run_at": "document_start"
+        }
+    ],
 
-	"permissions": [
-		"webRequest",
-		"webRequestBlocking",
-		"*://mycourses.aalto.fi/*",
-		"storage"
-	],
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "*://mycourses.aalto.fi/*",
+        "storage"
+    ],
 
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "{e33041e4-d51f-4adc-bbc1-7c10c9cccef3}"
-		}
-	},
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{e33041e4-d51f-4adc-bbc1-7c10c9cccef3}"
+        }
+    },
 
-	"icons": {
-		"48": "icons/icon-48.png",
-		"96": "icons/icon-96.png"
-	}
+    "icons": {
+        "48": "icons/icon-48.png",
+        "96": "icons/icon-96.png"
+    }
 }

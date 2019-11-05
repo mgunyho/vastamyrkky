@@ -1,110 +1,110 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
 <style>
 form {
-	font-size: 15px;
+    font-size: 15px;
 }
 input {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 label {
-	display:inline-block;
-	margin-bottom: 1em;
+    display:inline-block;
+    margin-bottom: 1em;
 }
 .disabled {
-	opacity: 0.5;
+    opacity: 0.5;
 }
 /* pure-css tooltip, from https://stackoverflow.com/a/25813336 */
 [tooltip]:before {
-	position: absolute;
-	content: attr(tooltip);
-	opacity: 0;
+    position: absolute;
+    content: attr(tooltip);
+    opacity: 0;
 
-	max-width: 20em;
-	border-style: solid;
-	background-color: black;
-	color: white;
-	padding: 0.5em 0.75em;
-	pointer-events: none;
+    max-width: 20em;
+    border-style: solid;
+    background-color: black;
+    color: white;
+    padding: 0.5em 0.75em;
+    pointer-events: none;
 }
 [tooltip]:hover:before {
-	opacity: 1;
+    opacity: 1;
 }
 [tooltip] {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 </style>
 <script src="settings.js"></script>
-	</head>
+    </head>
 
-	<body>
-		<form style="margin-top: 20px;">
-			<!-- TODO: dividers for different sections -->
-			<label>
-				<input type="checkbox" id="hide_dashboard_header" />
-				Hide header on dashboard page
-				<span tooltip="It's the yellow box containing &quot;Services&quot;, &quot;Academic year progress&quot; and &quot;My latest grades in Oodi&quot;. You can bring out the header by clicking a button.">?</span>
-			</label><br />
+    <body>
+        <form style="margin-top: 20px;">
+            <!-- TODO: dividers for different sections -->
+            <label>
+                <input type="checkbox" id="hide_dashboard_header" />
+                Hide header on dashboard page
+                <span tooltip="It's the yellow box containing &quot;Services&quot;, &quot;Academic year progress&quot; and &quot;My latest grades in Oodi&quot;. You can bring out the header by clicking a button.">?</span>
+            </label><br />
 
-			<label>
-			<input type="checkbox" id="sort_latest_grades" />
-			Sort 'My latest grades in Oodi' by date
-			</label><br />
+            <label>
+            <input type="checkbox" id="sort_latest_grades" />
+            Sort 'My latest grades in Oodi' by date
+            </label><br />
 
-			<label>
-			<input type="checkbox" id="course_page_compact_header" />
-			Compact header on course pages
-			</label><br />
+            <label>
+            <input type="checkbox" id="course_page_compact_header" />
+            Compact header on course pages
+            </label><br />
 
-			<label>
-			<input type="checkbox" id="course_page_title_link" />
-			Course title links to course home page
-			</label><br />
+            <label>
+            <input type="checkbox" id="course_page_title_link" />
+            Course title links to course home page
+            </label><br />
 
-			<label>
-			<input type="checkbox" id="show_recent_items_in_sidebar" />
-			Show recent items in sidebar
-			</label><br />
-			<label class="disabled">
-			Maximum number of recent items to show in sidebar:
-			<input type="number" id="show_recent_items_in_sidebar_max" min="1" max="999" />
-			</label><br />
-			<label class="disabled">
-				<input type="button" id="clear_recent_items" value="Clear recent items">
-				<p id="recent_items_cleared_message" style="display:none;">Recent items cleared.</p>
-			</label><br />
+            <label>
+            <input type="checkbox" id="show_recent_items_in_sidebar" />
+            Show recent items in sidebar
+            </label><br />
+            <label class="disabled">
+            Maximum number of recent items to show in sidebar:
+            <input type="number" id="show_recent_items_in_sidebar_max" min="1" max="999" />
+            </label><br />
+            <label class="disabled">
+                <input type="button" id="clear_recent_items" value="Clear recent items">
+                <p id="recent_items_cleared_message" style="display:none;">Recent items cleared.</p>
+            </label><br />
 
-			<label>
-			<input type="checkbox" id="prevent_forcedownload" />
-				Prevent force download of PDF files
-				<span tooltip="This removes &quot;forcedownload=1&quot; from PDF URLs and does some other stuff to always open PDFs in a new tab instead of downloading. Make sure that you have &quot;Preview in Firefox&quot; selected for PDF files in Preferences -> Applications.">?</span>
-			</label><br />
+            <label>
+            <input type="checkbox" id="prevent_forcedownload" />
+                Prevent force download of PDF files
+                <span tooltip="This removes &quot;forcedownload=1&quot; from PDF URLs and does some other stuff to always open PDFs in a new tab instead of downloading. Make sure that you have &quot;Preview in Firefox&quot; selected for PDF files in Preferences -> Applications.">?</span>
+            </label><br />
 
-			<label>
-			<input type="checkbox" id="activities_to_sidebar" />
-				Move course activities to sidebar <span tooltip="Activities are the little blobs in the upper right corner of the course page, below the title, usually &quot;Assignments&quot;, &quot;Forums&quot; and &quot;Resources&quot;.">?</span>
-			</label><br />
-			<label>
-			Adjust sidebar animation duration: <span id="sidebar_duration_display" style="display: inline-block; width: 3em;"></span>s
-			<input type="range" id="sidebar_animation_duration" min="0" max="0.5" step="0.05" value="0.5"/>
-			</label><br />
+            <label>
+            <input type="checkbox" id="activities_to_sidebar" />
+                Move course activities to sidebar <span tooltip="Activities are the little blobs in the upper right corner of the course page, below the title, usually &quot;Assignments&quot;, &quot;Forums&quot; and &quot;Resources&quot;.">?</span>
+            </label><br />
+            <label>
+            Adjust sidebar animation duration: <span id="sidebar_duration_display" style="display: inline-block; width: 3em;"></span>s
+            <input type="range" id="sidebar_animation_duration" min="0" max="0.5" step="0.05" value="0.5"/>
+            </label><br />
 
-			<label>
-				Automatically redirect login page to
-				<select id="redirect_loginpage">
-					<option value="">None</option>
-					<option value="aaltologin">Aalto login</option>
-					<option value="hakalogin">HAKA login</option>
-				</select>
-			</label><br />
-			<label>
-				<input type="checkbox" id="disable_login_dropshadow" />Disable drop shadow on login button
-			</label><br />
-			<button style="display:block; margin-top:15px;" type="submit">Save</button>
-			<p id="settings_saved_message" style="display:none;">Settings saved.</p>
-		</form>
-	</body>
+            <label>
+                Automatically redirect login page to
+                <select id="redirect_loginpage">
+                    <option value="">None</option>
+                    <option value="aaltologin">Aalto login</option>
+                    <option value="hakalogin">HAKA login</option>
+                </select>
+            </label><br />
+            <label>
+                <input type="checkbox" id="disable_login_dropshadow" />Disable drop shadow on login button
+            </label><br />
+            <button style="display:block; margin-top:15px;" type="submit">Save</button>
+            <p id="settings_saved_message" style="display:none;">Settings saved.</p>
+        </form>
+    </body>
 </html>
