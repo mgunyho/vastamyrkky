@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Vastamyrkky",
-    "version": "0.1.2",
+    "version": "0.1.3",
 
     "options_ui": {
         "page": "settings.html",
