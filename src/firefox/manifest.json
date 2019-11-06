@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Vastamyrkky",
-    "version": "0.1.1",
+    "version": "0.1.2",
 
     "options_ui": {
         "page": "settings.html",
@@ -69,13 +69,9 @@
 
     "browser_specific_settings": {
         "gecko": {
-            "id": "{e33041e4-d51f-4adc-bbc1-7c10c9cccef3}"
-        }
-    },
-
-    "applications": {
-        "gecko": {
+            "id": "{e33041e4-d51f-4adc-bbc1-7c10c9cccef3}",
             "update_url": "https://raw.githubusercontent.com/mgunyho/vastamyrkky/master/src/firefox/update_manifest.json"
         }
     }
+
 }
