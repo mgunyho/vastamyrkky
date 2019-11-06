@@ -3,8 +3,8 @@
         "{e33041e4-d51f-4adc-bbc1-7c10c9cccef3}": {
             "updates": [
                 {
-                "version": "0.1.1",
-                "update_link": "https://github.com/mgunyho/vastamyrkky/releases/download/v0.1.1/vastamyrkky-0.1.1-fx.xpi"
+                    "version": "0.1.1",
+                    "update_link": "https://github.com/mgunyho/vastamyrkky/releases/download/v0.1.1/vastamyrkky-0.1.1-fx.xpi"
                 }
             ]
         }
