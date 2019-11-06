@@ -41,6 +41,17 @@ of recently viewed items if you enable it. All information is only read from
 the HTML of the page as it is being displayed to you and it is never sent
 anywhere.
 
+## Installation
+
+Because this extension cannot be used without logging in to MyCourses, it
+cannot be distributed on the official Mozilla addon platform. To install the
+extension manually, head on to the
+[releases](https://github.com/mgunyho/vastamyrkky/releases) page and pick the
+`.xpi` file from the latest version. Either double-click on the downloaded file
+or type `about:addons` into the address bar and select `Install Add-on From
+File...` from the cog menu. It should be possible to update the add-on
+automatically from within Firefox after it has been installed.
+
 ## Hacking
 
 ### Installing development version on Firefox
