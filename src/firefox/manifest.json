@@ -1,17 +1,26 @@
 {
     "manifest_version": 2,
     "name": "Vastamyrkky",
-    "version": "0.1",
+    "version": "0.1.0",
+
     "options_ui": {
         "page": "settings.html",
         "browser_style": true,
         "chrome_style": true
     },
+
     "browser_action": {
     },
+
+    "icons": {
+        "48": "icons/icon-48.png",
+        "96": "icons/icon-96.png"
+    },
+
     "background": {
         "scripts": ["scripts/background.js"]
     },
+
     "content_scripts": [
         {
         "matches": [
@@ -64,8 +73,9 @@
         }
     },
 
-    "icons": {
-        "48": "icons/icon-48.png",
-        "96": "icons/icon-96.png"
+    "applications": {
+        "gecko": {
+            "update_url": "https://raw.githubusercontent.com/mgunyho/vastamyrkky/master/src/firefox/update_manifest.json"
+        }
     }
 }
